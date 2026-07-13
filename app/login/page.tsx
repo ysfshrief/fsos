@@ -1,22 +1,49 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import { useLocale } from '@/lib/locale-context';
 import { isDemoMode } from '@/lib/firebase';
 import LangSwitcher from '@/components/LangSwitcher';
 import JoeBadge from '@/components/JoeBadge';
 
+const demoAccounts = [
+  { email: 'student@demo.com', roleKey: 'student', icon: '🎓' },
+  { email: 'parent@demo.com', roleKey: 'parent', icon: '👨‍👩‍👧' },
+  { email: 'teacher@demo.com', roleKey: 'teacher', icon: '📚' },
+  { email: 'admin@demo.com', roleKey: 'admin', icon: '⚙️' },
+];
+
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-ivory" />}>
+      <LoginInner />
+    </Suspense>
+  );
+}
+
+function LoginInner() {
   const { t } = useLocale();
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState(isDemoMode ? 'student@demo.com' : '');
   const [password, setPassword] = useState(isDemoMode ? 'demo1234' : '');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+
+  // Prefill demo credentials based on ?role= from the portal cards
+  useEffect(() => {
+    if (!isDemoMode) return;
+    const role = searchParams.get('role');
+    const match = demoAccounts.find((a) => a.roleKey === role);
+    if (match) {
+      setEmail(match.email);
+      setPassword('demo1234');
+    }
+  }, [searchParams]);
 
   const handleLogin = async () => {
     setError('');
@@ -64,11 +91,28 @@ export default function LoginPage() {
           <div className="mb-6"><LangSwitcher /></div>
 
           {isDemoMode && (
-            <div className="mb-5 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3 text-[11px] text-blue-800 leading-relaxed">
-              🧪 {t('demoMode')}
-              <div className="mt-1 font-mono text-[10px]">
-                student@demo.com · parent@demo.com<br />teacher@demo.com · admin@demo.com<br />
-                password: <b>demo1234</b>
+            <div className="mb-5 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+              <div className="text-[11px] text-blue-800 mb-2">🧪 {t('demoMode')}</div>
+              <div className="grid grid-cols-2 gap-1.5">
+                {demoAccounts.map((acc) => {
+                  const active = email === acc.email;
+                  return (
+                    <button
+                      key={acc.email}
+                      type="button"
+                      onClick={() => { setEmail(acc.email); setPassword('demo1234'); setError(''); }}
+                      className={`px-2 py-1.5 rounded-md border text-[11px] font-semibold transition text-start
+                        ${active
+                          ? 'border-burgundy bg-burgundy/5 text-burgundy'
+                          : 'border-gray-200 bg-white text-gray-600 hover:border-gold'}`}
+                    >
+                      {acc.icon} {t(acc.roleKey)}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-2 font-mono text-[10px] text-blue-800/70">
+                {email || 'اختر بوابة'} · password: <b>demo1234</b>
               </div>
             </div>
           )}
@@ -102,7 +146,7 @@ export default function LoginPage() {
           )}
 
           <div className="mt-8 pt-5 border-t border-gray-200 flex justify-center">
-            <JoeBadge tone="light" width={140} />
+            <JoeBadge width={150} />
           </div>
         </div>
       </div>

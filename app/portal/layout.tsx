@@ -104,7 +104,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             <span className="text-base w-5 text-center">🚪</span>{t('logout')}
           </button>
           <div className="mt-2 pt-2.5 border-t border-gray-50 flex justify-center">
-            <JoeBadge tone="light" width={120} />
+            <JoeBadge width={130} />
           </div>
         </div>
       </aside>

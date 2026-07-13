@@ -17,9 +17,9 @@ export default function HomePage() {
   }, []);
 
   const cards = [
-    { icon: '🎓', title: t('studentPortal'), href: '/login', bg: 'bg-burgundy/10' },
-    { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login', bg: 'bg-gold/10' },
-    { icon: '📚', title: t('teacherPortal'), href: '/login', bg: 'bg-blue-600/10' },
+    { icon: '🎓', title: t('studentPortal'), href: '/login?role=student', bg: 'bg-burgundy/10' },
+    { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login?role=parent', bg: 'bg-gold/10' },
+    { icon: '📚', title: t('teacherPortal'), href: '/login?role=teacher', bg: 'bg-blue-600/10' },
     { icon: '📋', title: t('adminInfo'), href: '/admissions', bg: 'bg-green-600/10' },
   ];
 
