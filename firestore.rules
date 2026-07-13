@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && userDoc().role == 'admin' && userDoc().approved == true;
+    }
+
+    function isApprovedRole(r) {
+      return isSignedIn() && userDoc().role == r && userDoc().approved == true;
+    }
+
+    // ---------- USERS ----------
+    match /users/{uid} {
+      // Anyone signed in can create their own profile (pending approval)
+      allow create: if isSignedIn() && request.auth.uid == uid
+                    && request.resource.data.approved == false
+                    && request.resource.data.role in ['student', 'parent', 'teacher'];
+      // Read own profile; admins read all; teachers read students
+      allow read: if isSignedIn() && (
+        request.auth.uid == uid || isAdmin() || isApprovedRole('teacher')
+      );
+      // Only admin can update (approval, role, classId, childrenIds)
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------- GRADES ----------
+    match /grades/{gradeId} {
+      allow read: if isSignedIn() && (
+        resource.data.studentId == request.auth.uid ||
+        isAdmin() || isApprovedRole('teacher') ||
+        (isApprovedRole('parent') && resource.data.studentId in userDoc().childrenIds)
+      );
+      allow write: if isAdmin() || isApprovedRole('teacher');
+    }
+
+    // ---------- HOMEWORK ----------
+    match /homework/{hwId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() || isApprovedRole('teacher');
+    }
+
+    // ---------- ATTENDANCE ----------
+    match /attendance/{attId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() || isApprovedRole('teacher');
+    }
+
+    // ---------- NEWS (public site reads) ----------
+    match /news/{newsId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CLASSES ----------
+    match /classes/{classId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
