@@ -102,9 +102,7 @@ export default function LoginPage() {
           )}
 
           <div className="mt-8 pt-5 border-t border-gray-200 flex justify-center">
-            <div className="[&_span.text-gold-light]:!text-burgundy [&_span.text-white\\/40]:!text-gray-400">
-              <JoeBadge variant="footer" />
-            </div>
+            <JoeBadge tone="light" width={140} />
           </div>
         </div>
       </div>

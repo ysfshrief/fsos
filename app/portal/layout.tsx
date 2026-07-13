@@ -103,8 +103,8 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             className="flex items-center gap-2.5 px-2.5 py-2.5 rounded-md text-[13px] font-medium text-gray-600 hover:bg-gray-50 w-full">
             <span className="text-base w-5 text-center">🚪</span>{t('logout')}
           </button>
-          <div className="mt-2 pt-2.5 border-t border-gray-50 flex justify-center [&_span.text-gold-light]:!text-burgundy [&_span.text-white\\/40]:!text-gray-400">
-            <JoeBadge variant="compact" />
+          <div className="mt-2 pt-2.5 border-t border-gray-50 flex justify-center">
+            <JoeBadge tone="light" width={120} />
           </div>
         </div>
       </aside>

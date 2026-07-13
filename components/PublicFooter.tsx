@@ -43,7 +43,7 @@ export default function PublicFooter() {
         </div>
         <div className="border-t border-white/10 pt-5 flex flex-wrap justify-between items-center gap-3 text-xs">
           <span>© 2026 {t('schoolNameFull')} — {t('rights')}</span>
-          <JoeBadge variant="footer" />
+          <JoeBadge tone="dark" width={150} />
         </div>
       </div>
     </footer>
