@@ -7,18 +7,16 @@ import PublicFooter from '@/components/PublicFooter';
 import WelcomeModal from '@/components/WelcomeModal';
 import BannerSlider from '@/components/BannerSlider';
 import { useLocale } from '@/lib/locale-context';
-import { getNews, getBanners, getSiteSettings } from '@/lib/db';
+import { getNews, getSiteSettings } from '@/lib/db';
 import type { NewsItem, SiteSettings } from '@/lib/types';
 
 export default function HomePage() {
-  const { t } = useLocale();
+  const { t, tx } = useLocale();
   const [news, setNews] = useState<NewsItem[]>([]);
-  const [hasBanners, setHasBanners] = useState(false);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
     getNews().then((n) => setNews(n.slice(0, 3))).catch(() => {});
-    getBanners().then((b) => setHasBanners(b.filter((x) => x.visible).length > 0)).catch(() => {});
     getSiteSettings().then(setSettings).catch(() => {});
   }, []);
 
@@ -35,10 +33,9 @@ export default function HomePage() {
     <>
       <WelcomeModal />
       <PublicNav />
-      <BannerSlider />
 
-      {/* HERO */}
-      <section className={`${hasBanners ? 'py-20' : 'min-h-screen pt-[70px]'} flex items-center relative overflow-hidden`}
+      {/* HERO (school name — always first) */}
+      <section className="min-h-screen pt-[70px] flex items-center relative overflow-hidden"
         style={{ background: 'linear-gradient(140deg,#4A1219 0%,#6E1E2B 45%,#8B2535 75%,#9D2F3C 100%)' }}>
         <div className="absolute inset-0" style={{
           background: 'radial-gradient(ellipse at 15% 55%,rgba(201,162,39,.14) 0%,transparent 55%)'
@@ -49,7 +46,7 @@ export default function HomePage() {
               ✨ {t('since')}
             </div>
             <h1 className="text-5xl md:text-[52px] font-bold text-white leading-tight mb-3">
-              {t('schoolName')}
+              {tx(settings?.schoolName) || t('schoolName')}
             </h1>
             <p className="font-display italic text-xl text-white/70 mb-6">
               Franciscan Sisters Private School – Damanhour
@@ -84,6 +81,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* BANNER SLIDER (second — promotional) */}
+      <BannerSlider />
 
       {/* QUICK ACCESS */}
       <section className="py-20 bg-white">

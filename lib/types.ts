@@ -1,5 +1,5 @@
 export type Role = 'student' | 'parent' | 'teacher' | 'admin';
-export type Locale = 'ar' | 'en' | 'fr';
+export type Locale = 'ar' | 'en' | 'fr' | 'it';
 
 export interface AppUser {
   uid: string;
@@ -67,6 +67,7 @@ export interface I18nText {
   ar: string;
   en: string;
   fr: string;
+  it?: string;
 }
 
 /** Global site settings, all editable from the admin panel. */
@@ -134,7 +135,7 @@ export interface Banner {
 }
 
 /** Helper: empty multilingual text. */
-export const emptyI18n = (): I18nText => ({ ar: '', en: '', fr: '' });
+export const emptyI18n = (): I18nText => ({ ar: '', en: '', fr: '', it: '' });
 
 // ============================================================
 // Phase 2 — Hall of Fame + Courses

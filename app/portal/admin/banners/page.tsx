@@ -12,7 +12,7 @@ const blank = (): Omit<Banner, 'id'> => ({
 });
 
 export default function AdminBanners() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Banner[]>([]);
   const [editing, setEditing] = useState<(Omit<Banner, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -72,19 +72,19 @@ export default function AdminBanners() {
                 {/* Preview */}
                 <div className="sm:w-56 h-32 shrink-0 relative bg-gradient-to-br from-burgundy to-gold">
                   {b.imageUrl ? (
-                    <DriveImage src={b.imageUrl} alt={b.title[locale]} className="w-full h-full object-cover" />
+                    <DriveImage src={b.imageUrl} alt={tx(b.title)} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white/60 text-xs">بدون صورة (تدرّج افتراضي)</div>
                   )}
                   <div className="absolute inset-0 bg-black/30 flex flex-col justify-center px-4">
-                    <div className="text-white font-bold text-sm line-clamp-1">{b.title[locale]}</div>
-                    <div className="text-white/70 text-[10px] line-clamp-1">{b.subtitle[locale]}</div>
+                    <div className="text-white font-bold text-sm line-clamp-1">{tx(b.title)}</div>
+                    <div className="text-white/70 text-[10px] line-clamp-1">{tx(b.subtitle)}</div>
                   </div>
                 </div>
                 {/* Controls */}
                 <div className="flex-1 p-4 flex flex-col justify-between">
                   <div className="text-[11px] text-gray-500">
-                    ترتيب: {b.order} {b.ctaHref && <>• زر: {b.ctaLabel[locale]} → {b.ctaHref}</>}
+                    ترتيب: {b.order} {b.ctaHref && <>• زر: {tx(b.ctaLabel)} → {b.ctaHref}</>}
                   </div>
                   <div className="flex gap-1.5 mt-3">
                     <button onClick={() => setEditing(b)} className="flex-1 px-2 py-1.5 rounded-md bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200">✏️ {t('edit')}</button>

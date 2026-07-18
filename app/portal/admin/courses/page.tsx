@@ -13,7 +13,7 @@ const blank = (): Omit<Course, 'id'> => ({
 });
 
 export default function AdminCourses() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Course[]>([]);
   const [editing, setEditing] = useState<(Omit<Course, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -89,11 +89,11 @@ export default function AdminCourses() {
           {list.map((c) => (
             <div key={c.id} className={`bg-white rounded-xl border shadow-sm overflow-hidden ${c.visible ? 'border-gray-100' : 'border-gray-200 opacity-60'}`}>
               <div className="h-28 bg-gradient-to-br from-burgundy to-gold">
-                <DriveImage src={c.coverUrl} alt={c.name[locale]} className="w-full h-full object-cover" />
+                <DriveImage src={c.coverUrl} alt={tx(c.name)} className="w-full h-full object-cover" />
               </div>
               <div className="p-4">
-                <div className="text-sm font-bold text-gray-800 mb-0.5">{c.name[locale]}</div>
-                <div className="text-[11px] text-gray-400 mb-3">👥 {c.ageGroup} • ⏱️ {c.duration[locale]}</div>
+                <div className="text-sm font-bold text-gray-800 mb-0.5">{tx(c.name)}</div>
+                <div className="text-[11px] text-gray-400 mb-3">👥 {c.ageGroup} • ⏱️ {tx(c.duration)}</div>
                 <div className="flex gap-1.5">
                   <button onClick={() => setEditing(c)} className="flex-1 px-2 py-1.5 rounded-md bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200">✏️ {t('edit')}</button>
                   <button onClick={() => toggleVisible(c)} className="px-2.5 py-1.5 rounded-md bg-blue-500/10 text-blue-600 text-[11px] font-bold hover:bg-blue-500/20">{c.visible ? '👁️' : '🙈'}</button>

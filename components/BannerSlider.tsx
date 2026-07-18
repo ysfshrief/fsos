@@ -7,7 +7,7 @@ import { resolveImageUrl } from '@/lib/drive';
 import type { Banner } from '@/lib/types';
 
 export default function BannerSlider() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [current, setCurrent] = useState(0);
 
@@ -25,7 +25,7 @@ export default function BannerSlider() {
   if (banners.length === 0) return null;
 
   return (
-    <section className="relative h-[380px] md:h-[460px] mt-[70px] overflow-hidden bg-burgundy-dark">
+    <section className="relative h-[380px] md:h-[460px] overflow-hidden bg-burgundy-dark">
       {banners.map((b, i) => {
         const hasImage = !!b.imageUrl?.trim();
         return (
@@ -49,15 +49,15 @@ export default function BannerSlider() {
                 ✦ {t('schoolName')}
               </div>
               <h2 className="font-display text-3xl md:text-5xl font-bold text-white leading-tight mb-3 max-w-2xl drop-shadow">
-                {b.title[locale]}
+                {tx(b.title)}
               </h2>
-              {b.subtitle[locale] && (
-                <p className="text-white/80 text-sm md:text-lg mb-6 max-w-xl drop-shadow">{b.subtitle[locale]}</p>
+              {tx(b.subtitle) && (
+                <p className="text-white/80 text-sm md:text-lg mb-6 max-w-xl drop-shadow">{tx(b.subtitle)}</p>
               )}
-              {b.ctaLabel[locale] && b.ctaHref && (
+              {tx(b.ctaLabel) && b.ctaHref && (
                 <Link href={b.ctaHref}
                   className="px-6 py-2.5 rounded-xl bg-gold text-white font-semibold hover:bg-gold-light transition shadow-lg">
-                  {b.ctaLabel[locale]} ←
+                  {tx(b.ctaLabel)} ←
                 </Link>
               )}
             </div>

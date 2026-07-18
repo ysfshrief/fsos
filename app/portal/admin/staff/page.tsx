@@ -18,7 +18,7 @@ const cats: { v: StaffCategory; label: string }[] = [
 ];
 
 export default function AdminStaff() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<StaffMember[]>([]);
   const [group, setGroup] = useState<StaffGroupImage | null>(null);
   const [editing, setEditing] = useState<(Omit<StaffMember, 'id'> & { id?: string }) | null>(null);
@@ -118,7 +118,7 @@ export default function AdminStaff() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-sm font-bold text-gray-800 truncate">{m.name}</div>
-                  <div className="text-[11px] text-burgundy">{m.role[locale]}</div>
+                  <div className="text-[11px] text-burgundy">{tx(m.role)}</div>
                   <div className="text-[10px] text-gray-400">{cats.find((c) => c.v === m.category)?.label}</div>
                 </div>
               </div>

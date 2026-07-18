@@ -1,17 +1,22 @@
 'use client';
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import type { Locale } from './types';
+import type { Locale, I18nText } from './types';
 import { dictionaries, localeDir } from './i18n';
 
 interface Ctx {
   locale: Locale;
   setLocale: (l: Locale) => void;
   t: (key: string) => string;
+  /** Localize an I18nText with fallback: current locale → en → ar. */
+  tx: (text?: I18nText | null) => string;
   dir: 'rtl' | 'ltr';
 }
 
+const fallbackTx = (text?: I18nText | null, locale: Locale = 'ar') =>
+  text ? (text[locale] || text.en || text.ar || '') : '';
+
 const LocaleContext = createContext<Ctx>({
-  locale: 'ar', setLocale: () => {}, t: (k) => k, dir: 'rtl',
+  locale: 'ar', setLocale: () => {}, t: (k) => k, tx: (x) => fallbackTx(x), dir: 'rtl',
 });
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
@@ -19,7 +24,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('locale') as Locale | null;
-    if (saved && ['ar', 'en', 'fr'].includes(saved)) setLocaleState(saved);
+    if (saved && ['ar', 'en', 'fr', 'it'].includes(saved)) setLocaleState(saved);
   }, []);
 
   useEffect(() => {
@@ -33,9 +38,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: string) => dictionaries[locale][key] ?? key;
+  const tx = (text?: I18nText | null) => fallbackTx(text, locale);
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, t, dir: localeDir(locale) }}>
+    <LocaleContext.Provider value={{ locale, setLocale, t, tx, dir: localeDir(locale) }}>
       {children}
     </LocaleContext.Provider>
   );

@@ -8,7 +8,7 @@ import { getPrincipal } from '@/lib/db';
 import type { PrincipalProfile } from '@/lib/types';
 
 export default function PrincipalPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [p, setP] = useState<PrincipalProfile | null>(null);
 
   useEffect(() => { getPrincipal().then(setP).catch(() => {}); }, []);
@@ -51,11 +51,11 @@ export default function PrincipalPage() {
         </div>
 
         {/* Message highlight */}
-        {p.message[locale] && (
+        {tx(p.message) && (
           <div className="max-w-4xl mx-auto px-6 -mt-8 relative z-10">
             <div className="bg-white rounded-2xl shadow-lg border-t-4 border-gold p-7">
               <div className="text-4xl text-gold/30 leading-none mb-2">&ldquo;</div>
-              <p className="font-display italic text-lg text-gray-700 leading-relaxed">{p.message[locale]}</p>
+              <p className="font-display italic text-lg text-gray-700 leading-relaxed">{tx(p.message)}</p>
               <div className="text-end text-sm font-bold text-burgundy mt-3">— {p.name}</div>
             </div>
           </div>
@@ -63,12 +63,12 @@ export default function PrincipalPage() {
 
         {/* Details grid */}
         <div className="max-w-4xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-5">
-          <Block icon="📖" title={t('biography')} text={p.biography[locale]} />
-          <Block icon="🎓" title={t('qualifications')} text={p.qualifications[locale]} />
-          <Block icon="🏆" title={t('achievements')} text={p.achievements[locale]} />
-          <Block icon="🎯" title={t('schoolVision')} text={p.vision[locale]} />
+          <Block icon="📖" title={t('biography')} text={tx(p.biography)} />
+          <Block icon="🎓" title={t('qualifications')} text={tx(p.qualifications)} />
+          <Block icon="🏆" title={t('achievements')} text={tx(p.achievements)} />
+          <Block icon="🎯" title={t('schoolVision')} text={tx(p.vision)} />
           <div className="md:col-span-2">
-            <Block icon="📜" title={t('schoolMission')} text={p.mission[locale]} />
+            <Block icon="📜" title={t('schoolMission')} text={tx(p.mission)} />
           </div>
         </div>
       </div>

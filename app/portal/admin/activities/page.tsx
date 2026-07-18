@@ -14,7 +14,7 @@ const blank = (): Omit<Activity, 'id'> => ({
 });
 
 export default function AdminActivities() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Activity[]>([]);
   const [editing, setEditing] = useState<(Omit<Activity, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -92,13 +92,13 @@ export default function AdminActivities() {
           {list.map((a) => (
             <div key={a.id} className={`bg-white rounded-xl border shadow-sm overflow-hidden ${a.visible ? 'border-gray-100' : 'border-gray-200 opacity-60'}`}>
               <div className="h-24 bg-gradient-to-br from-burgundy to-gold relative">
-                <DriveImage src={a.coverUrl} alt={a.title[locale]} className="w-full h-full object-cover" />
+                <DriveImage src={a.coverUrl} alt={tx(a.title)} className="w-full h-full object-cover" />
                 <span className="absolute top-2 start-2 text-[9px] font-bold bg-white/90 text-burgundy px-2 py-0.5 rounded-full">
                   {categoryMeta(a.category).icon} {t(categoryMeta(a.category).tKey)}
                 </span>
               </div>
               <div className="p-4">
-                <div className="text-sm font-bold text-gray-800 mb-0.5">{a.title[locale]}</div>
+                <div className="text-sm font-bold text-gray-800 mb-0.5">{tx(a.title)}</div>
                 <div className="text-[10px] text-gray-400 mb-3">📅 {a.date} • 🖼️ {a.images.length} • 🎬 {a.videos.length}</div>
                 <div className="flex gap-1.5">
                   <button onClick={() => setEditing(a)} className="flex-1 px-2 py-1.5 rounded-md bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200">✏️ {t('edit')}</button>

@@ -29,6 +29,7 @@ const langTabs: { code: keyof I18nText; label: string; dir: 'rtl' | 'ltr' }[] = 
   { code: 'ar', label: 'عربي', dir: 'rtl' },
   { code: 'en', label: 'EN', dir: 'ltr' },
   { code: 'fr', label: 'FR', dir: 'ltr' },
+  { code: 'it', label: 'IT', dir: 'ltr' },
 ];
 
 export function I18nField({
@@ -62,7 +63,7 @@ export function I18nField({
       </div>
       {multiline ? (
         <textarea
-          value={value[tab]}
+          value={value[tab] ?? ""}
           dir={active.dir}
           onChange={(e) => onChange({ ...value, [tab]: e.target.value })}
           rows={3}
@@ -70,7 +71,7 @@ export function I18nField({
         />
       ) : (
         <input
-          value={value[tab]}
+          value={value[tab] ?? ""}
           dir={active.dir}
           onChange={(e) => onChange({ ...value, [tab]: e.target.value })}
           className="w-full px-3 py-2 rounded-md border-2 border-gray-200 text-sm outline-none focus:border-burgundy transition"

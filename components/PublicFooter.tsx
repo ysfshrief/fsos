@@ -8,14 +8,14 @@ import type { SiteSettings } from '@/lib/types';
 import JoeBadge from './JoeBadge';
 
 export default function PublicFooter() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => { getSiteSettings().then(setSettings).catch(() => {}); }, []);
 
   const phone = settings?.phone || '045-000-0000';
   const email = settings?.email || 'info@franciscan-dam.edu.eg';
-  const address = settings?.address[locale] || 'دمنهور، البحيرة، مصر';
+  const address = tx(settings?.address) || 'دمنهور، البحيرة، مصر';
   const socials = [
     { url: settings?.facebook, icon: 'f', label: 'Facebook' },
     { url: settings?.instagram, icon: '📷', label: 'Instagram' },

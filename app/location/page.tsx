@@ -7,12 +7,12 @@ import { getSiteSettings } from '@/lib/db';
 import type { SiteSettings } from '@/lib/types';
 
 export default function LocationPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => { getSiteSettings().then(setSettings).catch(() => {}); }, []);
 
-  const address = settings?.address[locale] || 'دمنهور، البحيرة، مصر';
+  const address = tx(settings?.address) || 'دمنهور، البحيرة، مصر';
   const mapUrl = settings?.mapEmbedUrl || '';
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
@@ -31,7 +31,7 @@ export default function LocationPage() {
             <div className="flex items-center gap-3">
               <span className="text-2xl">🏫</span>
               <div>
-                <div className="text-sm font-bold text-gray-800">{settings?.schoolName[locale] || t('schoolName')}</div>
+                <div className="text-sm font-bold text-gray-800">{tx(settings?.schoolName) || t('schoolName')}</div>
                 <div className="text-xs text-gray-500">📍 {address}</div>
               </div>
             </div>

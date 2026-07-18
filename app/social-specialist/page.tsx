@@ -7,7 +7,7 @@ import { submitSpecialistMessage, getSiteSettings } from '@/lib/db';
 import type { SiteSettings } from '@/lib/types';
 
 export default function SocialSpecialistPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [form, setForm] = useState({ name: '', contact: '', subject: '', message: '', attachmentUrl: '', preferredTime: '' });
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -119,7 +119,7 @@ export default function SocialSpecialistPage() {
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
               <div className="font-bold text-burgundy text-sm mb-2">🕐 {t('workingHoursLabel')}</div>
-              <div className="text-xs text-gray-600">{settings?.workingHours[locale] || 'الأحد - الخميس: 8:00 ص - 2:00 م'}</div>
+              <div className="text-xs text-gray-600">{tx(settings?.workingHours) || 'الأحد - الخميس: 8:00 ص - 2:00 م'}</div>
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ const medals = [
 const categories = ['علمي', 'رياضي', 'فني', 'ثقافي'];
 
 export default function AdminAchievers() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Achiever[]>([]);
   const [editing, setEditing] = useState<(Omit<Achiever, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -114,7 +114,7 @@ export default function AdminAchievers() {
                   <div className="text-[11px] text-gray-400">{a.grade} • {a.year}</div>
                 </div>
               </div>
-              <div className="text-[12px] text-gray-600 mb-3 line-clamp-2">{a.achievement[locale]}</div>
+              <div className="text-[12px] text-gray-600 mb-3 line-clamp-2">{tx(a.achievement)}</div>
               <div className="flex gap-1.5">
                 <button onClick={() => setEditing(a)} className="flex-1 px-2 py-1.5 rounded-md bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200">✏️ {t('edit')}</button>
                 <button onClick={() => toggleVisible(a)} className="px-2.5 py-1.5 rounded-md bg-blue-500/10 text-blue-600 text-[11px] font-bold hover:bg-blue-500/20">{a.visible ? '👁️' : '🙈'}</button>

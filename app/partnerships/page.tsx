@@ -8,7 +8,7 @@ import { getPartners } from '@/lib/db';
 import type { Partner } from '@/lib/types';
 
 export default function PartnershipsPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [partners, setPartners] = useState<Partner[]>([]);
 
   useEffect(() => { getPartners().then((p) => setPartners(p.filter((x) => x.visible))).catch(() => {}); }, []);
@@ -27,10 +27,10 @@ export default function PartnershipsPage() {
             <div key={p.id}
               className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition p-6 flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden flex items-center justify-center mb-4">
-                <DriveImage src={p.logoUrl} alt={p.name[locale]} className="w-full h-full object-contain p-2" />
+                <DriveImage src={p.logoUrl} alt={tx(p.name)} className="w-full h-full object-contain p-2" />
               </div>
-              <div className="font-bold text-gray-800 text-sm mb-2">{p.name[locale]}</div>
-              <div className="text-xs text-gray-500 leading-relaxed mb-4 flex-1">{p.description[locale]}</div>
+              <div className="font-bold text-gray-800 text-sm mb-2">{tx(p.name)}</div>
+              <div className="text-xs text-gray-500 leading-relaxed mb-4 flex-1">{tx(p.description)}</div>
               {p.website && p.website !== '#' && (
                 <a href={p.website} target="_blank" rel="noopener noreferrer"
                   className="text-xs font-semibold text-burgundy hover:underline">

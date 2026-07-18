@@ -12,7 +12,7 @@ const blank = (): Omit<Partner, 'id'> => ({
 });
 
 export default function AdminPartners() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Partner[]>([]);
   const [editing, setEditing] = useState<(Omit<Partner, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -70,11 +70,11 @@ export default function AdminPartners() {
             <div key={p.id} className={`bg-white rounded-xl border shadow-sm p-4 ${p.visible ? 'border-gray-100' : 'border-gray-200 opacity-60'}`}>
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden flex items-center justify-center shrink-0">
-                  <DriveImage src={p.logoUrl} alt={p.name[locale]} className="w-full h-full object-contain p-1" />
+                  <DriveImage src={p.logoUrl} alt={tx(p.name)} className="w-full h-full object-contain p-1" />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-sm font-bold text-gray-800 truncate">{p.name[locale]}</div>
-                  <div className="text-[11px] text-gray-400 line-clamp-1">{p.description[locale]}</div>
+                  <div className="text-sm font-bold text-gray-800 truncate">{tx(p.name)}</div>
+                  <div className="text-[11px] text-gray-400 line-clamp-1">{tx(p.description)}</div>
                 </div>
               </div>
               <div className="flex gap-1.5">

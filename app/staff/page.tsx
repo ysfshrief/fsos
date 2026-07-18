@@ -9,7 +9,7 @@ import { getStaff, getStaffGroupImage } from '@/lib/db';
 import type { StaffMember, StaffGroupImage } from '@/lib/types';
 
 export default function StaffPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [group, setGroup] = useState<StaffGroupImage | null>(null);
 
@@ -31,7 +31,7 @@ export default function StaffPage() {
       </div>
       <div className="pt-12 pb-5 px-3">
         <div className="text-sm font-bold text-gray-800">{m.name}</div>
-        <div className="text-[11px] text-burgundy font-semibold mt-0.5">{m.role[locale]}</div>
+        <div className="text-[11px] text-burgundy font-semibold mt-0.5">{tx(m.role)}</div>
       </div>
     </div>
   );

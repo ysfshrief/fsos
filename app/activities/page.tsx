@@ -10,7 +10,7 @@ import { resolveImageUrl } from '@/lib/drive';
 import type { Activity, ActivityCategory } from '@/lib/types';
 
 export default function ActivitiesPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [filter, setFilter] = useState<ActivityCategory | 'all'>('all');
   const [selected, setSelected] = useState<Activity | null>(null);
@@ -54,7 +54,7 @@ export default function ActivitiesPage() {
                 <button key={a.id} onClick={() => setSelected(a)}
                   className="text-start bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition">
                   <div className="h-44 bg-gradient-to-br from-burgundy to-gold relative">
-                    <DriveImage src={a.coverUrl} alt={a.title[locale]} className="w-full h-full object-cover" />
+                    <DriveImage src={a.coverUrl} alt={tx(a.title)} className="w-full h-full object-cover" />
                     <span className="absolute top-3 start-3 text-[10px] font-bold bg-white/90 text-burgundy px-2.5 py-1 rounded-full">
                       {meta.icon} {t(meta.tKey)}
                     </span>
@@ -65,9 +65,9 @@ export default function ActivitiesPage() {
                     )}
                   </div>
                   <div className="p-4">
-                    <div className="text-sm font-bold text-gray-800 mb-1">{a.title[locale]}</div>
+                    <div className="text-sm font-bold text-gray-800 mb-1">{tx(a.title)}</div>
                     <div className="text-[11px] text-gray-400 mb-2">📅 {a.date}</div>
-                    <div className="text-xs text-gray-600 line-clamp-2">{a.description[locale]}</div>
+                    <div className="text-xs text-gray-600 line-clamp-2">{tx(a.description)}</div>
                   </div>
                 </button>
               );
@@ -82,7 +82,7 @@ export default function ActivitiesPage() {
         <div className="fixed inset-0 z-[90] bg-black/70 flex items-center justify-center p-4" onClick={() => setSelected(null)}>
           <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="h-56 bg-gradient-to-br from-burgundy to-gold relative">
-              <DriveImage src={selected.coverUrl} alt={selected.title[locale]} className="w-full h-full object-cover" />
+              <DriveImage src={selected.coverUrl} alt={tx(selected.title)} className="w-full h-full object-cover" />
               <button onClick={() => setSelected(null)}
                 className="absolute top-3 end-3 w-9 h-9 rounded-full bg-black/40 text-white text-xl flex items-center justify-center backdrop-blur">×</button>
             </div>
@@ -93,8 +93,8 @@ export default function ActivitiesPage() {
                 </span>
                 <span className="text-[11px] text-gray-400">📅 {selected.date}</span>
               </div>
-              <h2 className="font-display text-2xl font-bold text-burgundy mb-2">{selected.title[locale]}</h2>
-              <p className="text-sm text-gray-600 leading-relaxed mb-5">{selected.description[locale]}</p>
+              <h2 className="font-display text-2xl font-bold text-burgundy mb-2">{tx(selected.title)}</h2>
+              <p className="text-sm text-gray-600 leading-relaxed mb-5">{tx(selected.description)}</p>
 
               {/* Gallery */}
               {selected.images.length > 0 && (

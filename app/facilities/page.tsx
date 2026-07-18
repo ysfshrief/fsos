@@ -9,7 +9,7 @@ import { resolveImageUrl } from '@/lib/drive';
 import type { Facility } from '@/lib/types';
 
 export default function FacilitiesPage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
@@ -31,8 +31,8 @@ export default function FacilitiesPage() {
               {/* Text */}
               <div className={i % 2 ? 'md:order-2' : ''}>
                 <div className="text-4xl mb-3">{f.icon}</div>
-                <h2 className="font-display text-2xl font-bold text-burgundy mb-2">{f.name[locale]}</h2>
-                <p className="text-sm text-gray-600 leading-relaxed">{f.description[locale]}</p>
+                <h2 className="font-display text-2xl font-bold text-burgundy mb-2">{tx(f.name)}</h2>
+                <p className="text-sm text-gray-600 leading-relaxed">{tx(f.description)}</p>
               </div>
               {/* Gallery */}
               <div className={i % 2 ? 'md:order-1' : ''}>
@@ -41,7 +41,7 @@ export default function FacilitiesPage() {
                     {f.images.slice(0, 4).map((img, idx) => (
                       <button key={idx} onClick={() => setLightbox(resolveImageUrl(img))}
                         className="aspect-video rounded-xl overflow-hidden border border-gray-100 hover:opacity-90 transition">
-                        <DriveImage src={img} alt={f.name[locale]} className="w-full h-full object-cover" />
+                        <DriveImage src={img} alt={tx(f.name)} className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>

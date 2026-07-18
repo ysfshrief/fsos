@@ -13,7 +13,7 @@ const blank = (): Omit<Facility, 'id'> => ({
 const icons = ['🔬', '💻', '📚', '⚽', '🎭', '🏥', '🎵', '🍽️', '🤖', '🏫', '🎨', '🧪'];
 
 export default function AdminFacilities() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [list, setList] = useState<Facility[]>([]);
   const [editing, setEditing] = useState<(Omit<Facility, 'id'> & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
@@ -95,11 +95,11 @@ export default function AdminFacilities() {
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-2xl">{f.icon}</span>
                 <div>
-                  <div className="text-sm font-bold text-gray-800">{f.name[locale]}</div>
+                  <div className="text-sm font-bold text-gray-800">{tx(f.name)}</div>
                   <div className="text-[10px] text-gray-400">🖼️ {f.images.length} صورة</div>
                 </div>
               </div>
-              <div className="text-[12px] text-gray-600 mb-3 line-clamp-2">{f.description[locale]}</div>
+              <div className="text-[12px] text-gray-600 mb-3 line-clamp-2">{tx(f.description)}</div>
               <div className="flex gap-1.5">
                 <button onClick={() => setEditing(f)} className="flex-1 px-2 py-1.5 rounded-md bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200">✏️ {t('edit')}</button>
                 <button onClick={() => toggleVisible(f)} className="px-2.5 py-1.5 rounded-md bg-blue-500/10 text-blue-600 text-[11px] font-bold hover:bg-blue-500/20">{f.visible ? '👁️' : '🙈'}</button>

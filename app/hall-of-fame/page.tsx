@@ -15,7 +15,7 @@ const medalStyles: Record<string, { ring: string; badge: string; emoji: string }
 };
 
 export default function HallOfFamePage() {
-  const { t, locale } = useLocale();
+  const { t, locale, tx } = useLocale();
   const [achievers, setAchievers] = useState<Achiever[]>([]);
   const [search, setSearch] = useState('');
   const [grade, setGrade] = useState('');
@@ -91,7 +91,7 @@ export default function HallOfFamePage() {
                   <div className="p-4 text-center">
                     <div className="text-sm font-bold text-gray-800 mb-0.5">{a.name}</div>
                     <div className="text-[11px] text-gray-400 mb-2.5">{a.grade}</div>
-                    <div className="text-[12px] text-gray-600 leading-snug mb-3 min-h-[32px]">{a.achievement[locale]}</div>
+                    <div className="text-[12px] text-gray-600 leading-snug mb-3 min-h-[32px]">{tx(a.achievement)}</div>
                     <div className="flex items-center justify-center gap-2">
                       <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${m.badge}`}>{a.category}</span>
                       {a.certificateUrl && (
