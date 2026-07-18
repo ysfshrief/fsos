@@ -44,6 +44,12 @@ export default function AdminDashboard() {
       )}
 
       <div className="grid sm:grid-cols-2 gap-4">
+        <Link href="/portal/admin/banners"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🖼️</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageBanners')}</div>
+          <div className="text-xs text-gray-500">سلايدر الصفحة الرئيسية الديناميكي</div>
+        </Link>
         <Link href="/portal/admin/users"
           className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
           <div className="text-3xl mb-2">👥</div>
@@ -55,6 +61,66 @@ export default function AdminDashboard() {
           <div className="text-3xl mb-2">📰</div>
           <div className="font-bold text-gray-800 mb-1">{t('newsManage')}</div>
           <div className="text-xs text-gray-500">نشر أخبار وفعاليات الموقع العام</div>
+        </Link>
+        <Link href="/portal/admin/achievers"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🏆</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageAchievers')}</div>
+          <div className="text-xs text-gray-500">إدارة الطلاب المتفوقين في لوحة الشرف</div>
+        </Link>
+        <Link href="/portal/admin/courses"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🎓</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageCourses')}</div>
+          <div className="text-xs text-gray-500">إدارة البرامج التعليمية الإضافية</div>
+        </Link>
+        <Link href="/portal/admin/staff"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">👥</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageStaff')}</div>
+          <div className="text-xs text-gray-500">هيئة المدرسة والصورة الجماعية</div>
+        </Link>
+        <Link href="/portal/admin/principal"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🎓</div>
+          <div className="font-bold text-gray-800 mb-1">{t('managePrincipal')}</div>
+          <div className="text-xs text-gray-500">سيرة ورسالة ورؤية المديرة</div>
+        </Link>
+        <Link href="/portal/admin/facilities"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🏛️</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageFacilities')}</div>
+          <div className="text-xs text-gray-500">المرافق ومعارض الصور</div>
+        </Link>
+        <Link href="/portal/admin/activities"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🎨</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageActivities')}</div>
+          <div className="text-xs text-gray-500">الأنشطة الطلابية بالصور والفيديو</div>
+        </Link>
+        <Link href="/portal/admin/partners"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🤝</div>
+          <div className="font-bold text-gray-800 mb-1">{t('managePartners')}</div>
+          <div className="text-xs text-gray-500">شركاء المدرسة والروابط</div>
+        </Link>
+        <Link href="/portal/admin/applications"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">💼</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageApplications')}</div>
+          <div className="text-xs text-gray-500">طلبات التوظيف الواردة</div>
+        </Link>
+        <Link href="/portal/admin/messages"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">📨</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageMessages')}</div>
+          <div className="text-xs text-gray-500">رسائل الأخصائي الاجتماعي السرية</div>
+        </Link>
+        <Link href="/portal/admin/settings"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">⚙️</div>
+          <div className="font-bold text-gray-800 mb-1">{t('siteSettings')}</div>
+          <div className="text-xs text-gray-500">الهوية، التواصل، السوشيال ميديا، الخرائط</div>
         </Link>
       </div>
     </div>

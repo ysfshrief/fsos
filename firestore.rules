@@ -65,5 +65,71 @@ service cloud.firestore {
       allow read: if isSignedIn();
       allow write: if isAdmin();
     }
+
+    // ---------- CMS: SITE SETTINGS (public site reads) ----------
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: SECTIONS (public site reads) ----------
+    match /sections/{sectionId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: BANNERS (public site reads) ----------
+    match /banners/{bannerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: ACHIEVERS / Hall of Fame (public reads) ----------
+    match /achievers/{achieverId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: COURSES (public reads) ----------
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: STAFF (public reads) ----------
+    match /staff/{staffId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: FACILITIES (public reads) ----------
+    match /facilities/{facilityId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: ACTIVITIES (public reads) ----------
+    match /activities/{activityId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- CMS: PARTNERS (public reads) ----------
+    match /partners/{partnerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- JOB APPLICATIONS (public submit, admin manages) ----------
+    match /applications/{appId} {
+      allow create: if true;               // anyone can apply
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ---------- SPECIALIST MESSAGES (confidential: public submit, admin reads) ----------
+    match /specialist_messages/{msgId} {
+      allow create: if true;               // anyone can send
+      allow read, update, delete: if isAdmin();
+    }
   }
 }

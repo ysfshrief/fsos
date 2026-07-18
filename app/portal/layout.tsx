@@ -26,8 +26,19 @@ const navByRole: Record<string, { href: string; icon: string; key: string }[]> =
   ],
   admin: [
     { href: '/portal/admin', icon: '📊', key: 'dashboard' },
+    { href: '/portal/admin/banners', icon: '🖼️', key: 'manageBanners' },
     { href: '/portal/admin/users', icon: '👥', key: 'users' },
     { href: '/portal/admin/news', icon: '📰', key: 'newsManage' },
+    { href: '/portal/admin/achievers', icon: '🏆', key: 'manageAchievers' },
+    { href: '/portal/admin/courses', icon: '🎓', key: 'manageCourses' },
+    { href: '/portal/admin/staff', icon: '👥', key: 'manageStaff' },
+    { href: '/portal/admin/principal', icon: '🎓', key: 'managePrincipal' },
+    { href: '/portal/admin/facilities', icon: '🏛️', key: 'manageFacilities' },
+    { href: '/portal/admin/activities', icon: '🎨', key: 'manageActivities' },
+    { href: '/portal/admin/partners', icon: '🤝', key: 'managePartners' },
+    { href: '/portal/admin/applications', icon: '💼', key: 'manageApplications' },
+    { href: '/portal/admin/messages', icon: '📨', key: 'manageMessages' },
+    { href: '/portal/admin/settings', icon: '⚙️', key: 'siteSettings' },
   ],
 };
 

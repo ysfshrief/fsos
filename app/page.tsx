@@ -4,16 +4,22 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import PublicNav from '@/components/PublicNav';
 import PublicFooter from '@/components/PublicFooter';
+import WelcomeModal from '@/components/WelcomeModal';
+import BannerSlider from '@/components/BannerSlider';
 import { useLocale } from '@/lib/locale-context';
-import { getNews } from '@/lib/db';
-import type { NewsItem } from '@/lib/types';
+import { getNews, getBanners, getSiteSettings } from '@/lib/db';
+import type { NewsItem, SiteSettings } from '@/lib/types';
 
 export default function HomePage() {
   const { t } = useLocale();
   const [news, setNews] = useState<NewsItem[]>([]);
+  const [hasBanners, setHasBanners] = useState(false);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
     getNews().then((n) => setNews(n.slice(0, 3))).catch(() => {});
+    getBanners().then((b) => setHasBanners(b.filter((x) => x.visible).length > 0)).catch(() => {});
+    getSiteSettings().then(setSettings).catch(() => {});
   }, []);
 
   const cards = [
@@ -21,14 +27,18 @@ export default function HomePage() {
     { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login?role=parent', bg: 'bg-gold/10' },
     { icon: '📚', title: t('teacherPortal'), href: '/login?role=teacher', bg: 'bg-blue-600/10' },
     { icon: '📋', title: t('adminInfo'), href: '/admissions', bg: 'bg-green-600/10' },
+    { icon: '🏆', title: t('hallOfFame'), href: '/hall-of-fame', bg: 'bg-gold/10' },
+    { icon: '🎓', title: t('courses'), href: '/courses', bg: 'bg-purple-600/10' },
   ];
 
   return (
     <>
+      <WelcomeModal />
       <PublicNav />
+      <BannerSlider />
 
       {/* HERO */}
-      <section className="min-h-screen pt-[70px] flex items-center relative overflow-hidden"
+      <section className={`${hasBanners ? 'py-20' : 'min-h-screen pt-[70px]'} flex items-center relative overflow-hidden`}
         style={{ background: 'linear-gradient(140deg,#4A1219 0%,#6E1E2B 45%,#8B2535 75%,#9D2F3C 100%)' }}>
         <div className="absolute inset-0" style={{
           background: 'radial-gradient(ellipse at 15% 55%,rgba(201,162,39,.14) 0%,transparent 55%)'
@@ -57,9 +67,9 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-3 gap-4 mt-12">
               {[
-                { n: '1936', l: t('founded') },
-                { n: '2,400+', l: t('students') },
-                { n: '98%', l: t('successRate') },
+                { n: settings?.statFounded || '1936', l: t('founded') },
+                { n: settings?.statStudents || '2,400+', l: t('students') },
+                { n: settings?.statSuccess || '98%', l: t('successRate') },
               ].map((s) => (
                 <div key={s.l} className="p-4 bg-white/[.08] border border-white/10 rounded-xl text-center backdrop-blur">
                   <span className="font-display text-3xl font-bold text-gold-light block">{s.n}</span>

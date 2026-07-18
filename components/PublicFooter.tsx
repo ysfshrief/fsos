@@ -1,11 +1,28 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useLocale } from '@/lib/locale-context';
+import { getSiteSettings } from '@/lib/db';
+import type { SiteSettings } from '@/lib/types';
 import JoeBadge from './JoeBadge';
 
 export default function PublicFooter() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => { getSiteSettings().then(setSettings).catch(() => {}); }, []);
+
+  const phone = settings?.phone || '045-000-0000';
+  const email = settings?.email || 'info@franciscan-dam.edu.eg';
+  const address = settings?.address[locale] || 'دمنهور، البحيرة، مصر';
+  const socials = [
+    { url: settings?.facebook, icon: 'f', label: 'Facebook' },
+    { url: settings?.instagram, icon: '📷', label: 'Instagram' },
+    { url: settings?.youtube, icon: '▶', label: 'YouTube' },
+    { url: settings?.whatsapp ? `https://wa.me/${settings.whatsapp}` : '', icon: '💬', label: 'WhatsApp' },
+  ].filter((s) => s.url);
+
   return (
     <footer className="bg-gray-800 text-white/70 pt-14 pb-7">
       <div className="max-w-6xl mx-auto px-6">
@@ -36,9 +53,20 @@ export default function PublicFooter() {
           </div>
           <div>
             <div className="text-white text-xs font-bold mb-3">{t('contactUs')}</div>
-            <div className="text-xs mb-2">📍 دمنهور، البحيرة، مصر</div>
-            <div className="text-xs mb-2">📞 045-000-0000</div>
-            <div className="text-xs">✉️ info@franciscan-dam.edu.eg</div>
+            <div className="text-xs mb-2">📍 {address}</div>
+            <div className="text-xs mb-2" dir="ltr">📞 {phone}</div>
+            <div className="text-xs" dir="ltr">✉️ {email}</div>
+            {socials.length > 0 && (
+              <div className="flex gap-2 mt-3">
+                {socials.map((s) => (
+                  <a key={s.label} href={s.url as string} target="_blank" rel="noopener noreferrer"
+                    title={s.label}
+                    className="w-7 h-7 rounded-full bg-white/10 hover:bg-gold hover:text-white flex items-center justify-center text-xs transition">
+                    {s.icon}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="border-t border-white/10 pt-5 flex flex-wrap justify-between items-center gap-3 text-xs">
