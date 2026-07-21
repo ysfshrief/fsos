@@ -1,13 +1,14 @@
 import type { AppUser, Grade, Homework, NewsItem, SchoolClass, AttendanceRecord } from './types';
 
 export const demoUsers: AppUser[] = [
-  { uid: 'demo-student', email: 'student@demo.com', name: 'يوسف طارق محمد', role: 'student', approved: true, classId: 'class-3a' },
+  { uid: 'demo-student', email: 'student@demo.com', name: 'يوسف طارق محمد', role: 'student', approved: true, classId: 'class-3a', busId: 'bus-1', busRegion: 'سيدي جابر' },
   { uid: 'demo-student-2', email: 'student2@demo.com', name: 'سارة عبد الرحمن', role: 'student', approved: true, classId: 'class-3a' },
   { uid: 'demo-student-3', email: 'student3@demo.com', name: 'أحمد محمود علي', role: 'student', approved: true, classId: 'class-3a' },
   { uid: 'demo-student-4', email: 'student4@demo.com', name: 'حنان فتحي السيد', role: 'student', approved: true, classId: 'class-3a' },
   { uid: 'demo-parent', email: 'parent@demo.com', name: 'أ. طارق محمد يوسف', role: 'parent', approved: true, childrenIds: ['demo-student'] },
   { uid: 'demo-teacher', email: 'teacher@demo.com', name: 'أ. سارة حسين فؤاد', role: 'teacher', approved: true, subject: 'العلوم' },
   { uid: 'demo-admin', email: 'admin@demo.com', name: 'الأخت ماريا سيمونز', role: 'admin', approved: true },
+  { uid: 'demo-driver', email: 'driver@demo.com', name: 'الأسطى منصور عبد الله', role: 'driver', approved: true, busId: 'bus-1' },
   { uid: 'demo-pending', email: 'new@demo.com', name: 'محمد ناصر الدين', role: 'teacher', approved: false, subject: 'الرياضيات' },
 ];
 
@@ -16,6 +17,7 @@ export const demoPasswords: Record<string, string> = {
   'parent@demo.com': 'demo1234',
   'teacher@demo.com': 'demo1234',
   'admin@demo.com': 'demo1234',
+  'driver@demo.com': 'demo1234',
 };
 
 export const demoClasses: SchoolClass[] = [
@@ -301,4 +303,31 @@ export const demoSpecialistMessages: SpecialistMessage[] = [
     message: 'أرغب في تحديد موعد لمناقشة أمر يخص ابني.', attachmentUrl: '',
     preferredTime: 'الأحد صباحًا', status: 'new', createdAt: Date.now() - 43200000,
   },
+];
+
+// ============================================================
+// School Bus demo data
+// ============================================================
+import type { Bus, BusLive } from './types';
+
+export const demoBuses: Bus[] = [
+  {
+    id: 'bus-1',
+    name: { ar: 'الباص الأول', en: 'Bus 1', fr: 'Bus 1', it: 'Bus 1' },
+    plateNumber: 'ب ح ر 1234',
+    driverId: 'demo-driver',
+    driverName: 'الأسطى منصور عبد الله',
+    regions: [
+      { name: 'سيدي جابر', departureTime: '06:45', returnTime: '14:30' },
+      { name: 'الإبراهيمية', departureTime: '07:00', returnTime: '14:45' },
+      { name: 'محطة الرمل', departureTime: '07:20', returnTime: '15:00' },
+    ],
+    visible: true,
+    updatedAt: Date.now(),
+  },
+];
+
+// Damanhour approx center as demo location
+export const demoBusLive: BusLive[] = [
+  { id: 'bus-1', status: 'idle', lat: 31.0341, lng: 30.4682, sharing: false, etaMinutes: 0, updatedAt: Date.now() },
 ];

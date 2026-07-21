@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/auth-context';
 import { useLocale } from '@/lib/locale-context';
 import { getUserById, getGradesForStudent, getHomeworkForClass } from '@/lib/db';
 import KpiCard from '@/components/KpiCard';
+import BusTracker from '@/components/BusTracker';
 import type { AppUser, Grade, Homework } from '@/lib/types';
 
 export default function ParentDashboard() {
@@ -84,6 +85,21 @@ export default function ParentDashboard() {
               })}
               {grades.length === 0 && <div className="text-center text-xs text-gray-400 py-4">لا توجد درجات بعد</div>}
             </div>
+          </div>
+
+          {/* School bus tracking */}
+          <div className="mt-5">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-1 h-5 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full" />
+              <h3 className="font-bold text-gray-800">🚌 {t('busPage')}</h3>
+            </div>
+            {selected.busId ? (
+              <BusTracker busId={selected.busId} region={selected.busRegion} />
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center text-sm text-gray-400">
+                🚏 {t('notSubscribed')}
+              </div>
+            )}
           </div>
         </>
       )}

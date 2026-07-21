@@ -50,6 +50,12 @@ export default function AdminDashboard() {
           <div className="font-bold text-gray-800 mb-1">{t('manageBanners')}</div>
           <div className="text-xs text-gray-500">سلايدر الصفحة الرئيسية الديناميكي</div>
         </Link>
+        <Link href="/portal/admin/buses"
+          className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
+          <div className="text-3xl mb-2">🚌</div>
+          <div className="font-bold text-gray-800 mb-1">{t('manageBuses')}</div>
+          <div className="text-xs text-gray-500">الباصات والمناطق والمواعيد والسائقين</div>
+        </Link>
         <Link href="/portal/admin/users"
           className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">
           <div className="text-3xl mb-2">👥</div>

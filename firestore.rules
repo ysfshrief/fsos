@@ -131,5 +131,18 @@ service cloud.firestore {
       allow create: if true;               // anyone can send
       allow read, update, delete: if isAdmin();
     }
+
+    // ---------- SCHOOL BUSES (public/signed read for schedule, admin writes) ----------
+    match /buses/{busId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- BUS LIVE LOCATION (driver writes own, signed users read) ----------
+    match /bus_live/{busId} {
+      allow read: if isSignedIn();
+      // driver of this bus (or admin) can update the live location
+      allow write: if isAdmin() || isApprovedRole('driver');
+    }
   }
 }

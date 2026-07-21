@@ -18,6 +18,9 @@ const navByRole: Record<string, { href: string; icon: string; key: string }[]> =
   parent: [
     { href: '/portal/parent', icon: '🏠', key: 'dashboard' },
   ],
+  driver: [
+    { href: '/portal/driver', icon: '🚌', key: 'driverPanel' },
+  ],
   teacher: [
     { href: '/portal/teacher', icon: '🏠', key: 'dashboard' },
     { href: '/portal/teacher/attendance', icon: '📅', key: 'attendance' },
@@ -27,6 +30,7 @@ const navByRole: Record<string, { href: string; icon: string; key: string }[]> =
   admin: [
     { href: '/portal/admin', icon: '📊', key: 'dashboard' },
     { href: '/portal/admin/banners', icon: '🖼️', key: 'manageBanners' },
+    { href: '/portal/admin/buses', icon: '🚌', key: 'manageBuses' },
     { href: '/portal/admin/users', icon: '👥', key: 'users' },
     { href: '/portal/admin/news', icon: '📰', key: 'newsManage' },
     { href: '/portal/admin/achievers', icon: '🏆', key: 'manageAchievers' },
@@ -47,10 +51,11 @@ const roleGradients: Record<string, string> = {
   parent: 'linear-gradient(135deg,#7C3AED,#8B5CF6)',
   teacher: 'linear-gradient(135deg,#059669,#10B981)',
   admin: 'linear-gradient(135deg,#1F2937,#374151)',
+  driver: 'linear-gradient(135deg,#EA580C,#F97316)',
 };
 
 const roleEmojis: Record<string, string> = {
-  student: '👦', parent: '👨', teacher: '👩‍🏫', admin: '⚙️',
+  student: '👦', parent: '👨', teacher: '👩‍🏫', admin: '⚙️', driver: '🚌',
 };
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {

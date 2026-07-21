@@ -73,6 +73,16 @@ const ar: Dict = {
   statusNew: 'جديد', statusReviewed: 'تمت المراجعة', statusContacted: 'تم التواصل', statusHandled: 'تم التعامل',
   viewCV: 'عرض السيرة', viewCerts: 'عرض الشهادات', viewAttachment: 'عرض المرفق', noSubmissions: 'لا توجد طلبات',
   videoLinks: 'روابط الفيديو (كل رابط في سطر)',
+  driver: 'سائق', busPage: 'الباص المدرسي', busSchedule: 'مواعيد الباص', busTracking: 'تتبع الباص',
+  departureTimes: 'مواعيد التحرك', returnTimes: 'مواعيد العودة', byRegion: 'حسب المنطقة', region: 'المنطقة',
+  busStatus: 'حالة الباص', statusIdle: 'لم يتحرك بعد', statusMoving: 'الباص تحرك 🚌', statusNear: 'قرب يوصل 📍', statusArrived: 'وصل ✓',
+  currentLocation: 'الموقع الحالي', route: 'خط السير', eta: 'الوقت المتوقع للوصول', minutes: 'دقيقة',
+  shareLocation: 'مشاركة موقعي', stopSharing: 'إيقاف المشاركة', sharing: 'جاري المشاركة...', notSharing: 'غير متصل',
+  driverPanel: 'لوحة السائق', myBus: 'الباص الخاص بي', updateStatus: 'تحديث الحالة', notifications: 'الإشعارات',
+  notifMoving: 'الباص تحرك من المدرسة', notifNear: 'الباص قرب يوصل لمنطقتك', notifArrived: 'الباص وصل',
+  notSubscribed: 'ابنك غير مشترك في الباص المدرسي', manageBuses: 'الباصات', addBus: 'إضافة باص', busName: 'اسم الباص',
+  plateNumber: 'رقم اللوحة', assignDriver: 'السائق', addRegion: 'إضافة منطقة', locationPermission: 'يرجى السماح بالوصول للموقع',
+  enableGps: 'فعّل تحديد الموقع (GPS) على موبايلك',
 };
 
 const en: Dict = {
@@ -146,6 +156,16 @@ const en: Dict = {
   statusNew: 'New', statusReviewed: 'Reviewed', statusContacted: 'Contacted', statusHandled: 'Handled',
   viewCV: 'View CV', viewCerts: 'View Certificates', viewAttachment: 'View Attachment', noSubmissions: 'No submissions',
   videoLinks: 'Video links (one per line)',
+  driver: 'Driver', busPage: 'School Bus', busSchedule: 'Bus Schedule', busTracking: 'Bus Tracking',
+  departureTimes: 'Departure Times', returnTimes: 'Return Times', byRegion: 'By Region', region: 'Region',
+  busStatus: 'Bus Status', statusIdle: 'Not moving yet', statusMoving: 'Bus is moving 🚌', statusNear: 'Almost there 📍', statusArrived: 'Arrived ✓',
+  currentLocation: 'Current Location', route: 'Route', eta: 'Estimated Arrival', minutes: 'min',
+  shareLocation: 'Share my location', stopSharing: 'Stop sharing', sharing: 'Sharing...', notSharing: 'Offline',
+  driverPanel: 'Driver Panel', myBus: 'My Bus', updateStatus: 'Update Status', notifications: 'Notifications',
+  notifMoving: 'Bus left the school', notifNear: 'Bus is near your area', notifArrived: 'Bus has arrived',
+  notSubscribed: 'Your child is not subscribed to the school bus', manageBuses: 'Buses', addBus: 'Add Bus', busName: 'Bus Name',
+  plateNumber: 'Plate Number', assignDriver: 'Driver', addRegion: 'Add Region', locationPermission: 'Please allow location access',
+  enableGps: 'Enable GPS on your phone',
 };
 
 const fr: Dict = {
@@ -219,6 +239,16 @@ const fr: Dict = {
   statusNew: 'Nouveau', statusReviewed: 'Examiné', statusContacted: 'Contacté', statusHandled: 'Traité',
   viewCV: 'Voir CV', viewCerts: 'Voir certificats', viewAttachment: 'Voir pièce jointe', noSubmissions: 'Aucune candidature',
   videoLinks: 'Liens vidéo (un par ligne)',
+  driver: 'Chauffeur', busPage: 'Bus scolaire', busSchedule: 'Horaires du bus', busTracking: 'Suivi du bus',
+  departureTimes: 'Heures de départ', returnTimes: 'Heures de retour', byRegion: 'Par région', region: 'Région',
+  busStatus: 'État du bus', statusIdle: 'Pas encore parti', statusMoving: 'Le bus roule 🚌', statusNear: 'Presque arrivé 📍', statusArrived: 'Arrivé ✓',
+  currentLocation: 'Position actuelle', route: 'Itinéraire', eta: "Arrivée estimée", minutes: 'min',
+  shareLocation: 'Partager ma position', stopSharing: 'Arrêter', sharing: 'Partage...', notSharing: 'Hors ligne',
+  driverPanel: 'Panneau chauffeur', myBus: 'Mon bus', updateStatus: "Mettre à jour", notifications: 'Notifications',
+  notifMoving: "Le bus a quitté l'école", notifNear: 'Le bus approche', notifArrived: 'Le bus est arrivé',
+  notSubscribed: "Votre enfant n'est pas inscrit au bus", manageBuses: 'Bus', addBus: 'Ajouter', busName: 'Nom du bus',
+  plateNumber: "Plaque", assignDriver: 'Chauffeur', addRegion: 'Ajouter région', locationPermission: "Autorisez la localisation",
+  enableGps: 'Activez le GPS sur votre téléphone',
 };
 
 const it: Dict = {
@@ -427,6 +457,16 @@ const it: Dict = {
   viewAttachment: 'Vedi allegato',
   noSubmissions: 'Nessuna richiesta',
   videoLinks: 'Link video (uno per riga)',
+  driver: 'Autista', busPage: 'Scuolabus', busSchedule: 'Orari del bus', busTracking: 'Tracciamento bus',
+  departureTimes: 'Orari di partenza', returnTimes: 'Orari di ritorno', byRegion: 'Per zona', region: 'Zona',
+  busStatus: 'Stato del bus', statusIdle: 'Non ancora partito', statusMoving: 'Il bus è in movimento 🚌', statusNear: 'Quasi arrivato 📍', statusArrived: 'Arrivato ✓',
+  currentLocation: 'Posizione attuale', route: 'Percorso', eta: "Arrivo previsto", minutes: 'min',
+  shareLocation: 'Condividi posizione', stopSharing: 'Interrompi', sharing: 'Condivisione...', notSharing: 'Offline',
+  driverPanel: 'Pannello autista', myBus: 'Il mio bus', updateStatus: 'Aggiorna stato', notifications: 'Notifiche',
+  notifMoving: 'Il bus è partito', notifNear: 'Il bus è vicino', notifArrived: 'Il bus è arrivato',
+  notSubscribed: 'Tuo figlio non è iscritto allo scuolabus', manageBuses: 'Bus', addBus: 'Aggiungi', busName: 'Nome bus',
+  plateNumber: 'Targa', assignDriver: 'Autista', addRegion: 'Aggiungi zona', locationPermission: 'Consenti la localizzazione',
+  enableGps: 'Attiva il GPS sul telefono',
 };
 
 export const dictionaries: Record<Locale, Dict> = { ar, en, fr, it };

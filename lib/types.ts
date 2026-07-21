@@ -1,4 +1,4 @@
-export type Role = 'student' | 'parent' | 'teacher' | 'admin';
+export type Role = 'student' | 'parent' | 'teacher' | 'admin' | 'driver';
 export type Locale = 'ar' | 'en' | 'fr' | 'it';
 
 export interface AppUser {
@@ -10,6 +10,8 @@ export interface AppUser {
   classId?: string;      // for students
   childrenIds?: string[]; // for parents
   subject?: string;       // for teachers
+  busId?: string;         // for drivers (assigned bus) & students (subscribed bus)
+  busRegion?: string;     // student's pickup region
   createdAt?: number;
 }
 
@@ -288,4 +290,40 @@ export interface SpecialistMessage {
   preferredTime: string;    // appointment request
   status: 'new' | 'handled';
   createdAt: number;
+}
+
+// ============================================================
+// School Bus — driver GPS sharing + parent tracking
+// ============================================================
+
+export type BusStatus = 'idle' | 'moving' | 'near' | 'arrived';
+
+/** A school bus with its route regions and schedule. */
+export interface Bus {
+  id: string;
+  name: I18nText;          // e.g. "الباص الأول"
+  plateNumber: string;
+  driverId: string;        // assigned driver uid
+  driverName: string;
+  regions: BusRegion[];    // areas served with times
+  visible: boolean;
+  updatedAt: number;
+}
+
+/** A region served by the bus with departure/return times. */
+export interface BusRegion {
+  name: string;            // region name
+  departureTime: string;   // morning pickup time e.g. "06:45"
+  returnTime: string;      // afternoon return time e.g. "14:30"
+}
+
+/** Live location + status, updated by the driver (single doc per bus). */
+export interface BusLive {
+  id: string;              // = busId
+  status: BusStatus;
+  lat: number;
+  lng: number;
+  sharing: boolean;        // is the driver currently sharing?
+  etaMinutes: number;      // estimated minutes to arrival (driver/admin set)
+  updatedAt: number;
 }

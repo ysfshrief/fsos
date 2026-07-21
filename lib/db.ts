@@ -541,3 +541,78 @@ export async function deleteSpecialistMessage(id: string): Promise<void> {
   if (isDemoMode) { p5Mem.messages = p5Mem.messages.filter((m) => m.id !== id); return; }
   await deleteDoc(doc(db!, 'specialist_messages', id));
 }
+
+// ============================================================
+// School Bus data layer
+// ============================================================
+import { demoBuses, demoBusLive } from './demo-data';
+import type { Bus, BusLive, BusStatus } from './types';
+
+const busMem = {
+  buses: [...demoBuses] as Bus[],
+  live: [...demoBusLive] as BusLive[],
+};
+
+// ---------- BUSES (admin manages) ----------
+export async function getBuses(): Promise<Bus[]> {
+  if (isDemoMode) return [...busMem.buses];
+  const snap = await getDocs(collection(db!, 'buses'));
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Bus, 'id'>) }));
+}
+
+export async function getBusById(id: string): Promise<Bus | null> {
+  if (isDemoMode) return busMem.buses.find((b) => b.id === id) ?? null;
+  const snap = await getDoc(doc(db!, 'buses', id));
+  return snap.exists() ? { id, ...(snap.data() as Omit<Bus, 'id'>) } : null;
+}
+
+export async function getBusForDriver(driverId: string): Promise<Bus | null> {
+  if (isDemoMode) return busMem.buses.find((b) => b.driverId === driverId) ?? null;
+  const q = query(collection(db!, 'buses'), where('driverId', '==', driverId));
+  const snap = await getDocs(q);
+  return snap.empty ? null : { id: snap.docs[0].id, ...(snap.docs[0].data() as Omit<Bus, 'id'>) };
+}
+
+export async function saveBus(b: Omit<Bus, 'id'> & { id?: string }): Promise<void> {
+  const data = { ...b, updatedAt: Date.now() };
+  if (isDemoMode) {
+    if (data.id) {
+      const idx = busMem.buses.findIndex((x) => x.id === data.id);
+      if (idx >= 0) busMem.buses[idx] = data as Bus;
+      else busMem.buses.push(data as Bus);
+    } else {
+      busMem.buses.push({ ...data, id: `bus-${Date.now()}` } as Bus);
+    }
+    return;
+  }
+  const { id, ...rest } = data;
+  if (id) await setDoc(doc(db!, 'buses', id), rest, { merge: true });
+  else await addDoc(collection(db!, 'buses'), rest);
+}
+
+export async function deleteBus(id: string): Promise<void> {
+  if (isDemoMode) { busMem.buses = busMem.buses.filter((b) => b.id !== id); return; }
+  await deleteDoc(doc(db!, 'buses', id));
+}
+
+// ---------- BUS LIVE (driver updates, parent reads) ----------
+export async function getBusLive(busId: string): Promise<BusLive | null> {
+  if (isDemoMode) return busMem.live.find((l) => l.id === busId) ?? null;
+  const snap = await getDoc(doc(db!, 'bus_live', busId));
+  return snap.exists() ? { id: busId, ...(snap.data() as Omit<BusLive, 'id'>) } : null;
+}
+
+export async function updateBusLive(busId: string, patch: Partial<Omit<BusLive, 'id'>>): Promise<void> {
+  const data = { ...patch, updatedAt: Date.now() };
+  if (isDemoMode) {
+    const idx = busMem.live.findIndex((l) => l.id === busId);
+    if (idx >= 0) busMem.live[idx] = { ...busMem.live[idx], ...data };
+    else busMem.live.push({ id: busId, status: 'idle', lat: 0, lng: 0, sharing: false, etaMinutes: 0, ...data } as BusLive);
+    return;
+  }
+  await setDoc(doc(db!, 'bus_live', busId), data, { merge: true });
+}
+
+export async function setBusStatus(busId: string, status: BusStatus): Promise<void> {
+  await updateBusLive(busId, { status });
+}

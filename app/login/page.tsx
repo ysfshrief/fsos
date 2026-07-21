@@ -14,6 +14,7 @@ const demoAccounts = [
   { email: 'parent@demo.com', roleKey: 'parent', icon: '👨‍👩‍👧' },
   { email: 'teacher@demo.com', roleKey: 'teacher', icon: '📚' },
   { email: 'admin@demo.com', roleKey: 'admin', icon: '⚙️' },
+  { email: 'driver@demo.com', roleKey: 'driver', icon: '🚌' },
 ];
 
 export default function LoginPage() {

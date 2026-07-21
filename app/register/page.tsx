@@ -11,6 +11,7 @@ const roles: { role: Role; icon: string; key: string }[] = [
   { role: 'student', icon: '🎓', key: 'student' },
   { role: 'parent', icon: '👨‍👩‍👧', key: 'parent' },
   { role: 'teacher', icon: '📚', key: 'teacher' },
+  { role: 'driver', icon: '🚌', key: 'driver' },
 ];
 
 export default function RegisterPage() {

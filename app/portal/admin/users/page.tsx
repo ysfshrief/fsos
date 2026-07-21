@@ -9,6 +9,7 @@ const roleChips: Record<Role, string> = {
   parent: 'bg-gold-pale text-yellow-700',
   teacher: 'bg-green-500/10 text-green-600',
   admin: 'bg-gray-200 text-gray-700',
+  driver: 'bg-orange-500/10 text-orange-600',
 };
 
 export default function AdminUsers() {
