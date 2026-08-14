@@ -15,6 +15,7 @@ const allLinks = [
   { href: '/admissions', key: 'admissions' },
   { href: '/hall-of-fame', key: 'hallOfFame' },
   { href: '/courses', key: 'courses' },
+  { href: '/timetables', key: 'timetables' },
   { href: '/staff', key: 'staff' },
   { href: '/facilities', key: 'facilities' },
   { href: '/activities', key: 'activities' },

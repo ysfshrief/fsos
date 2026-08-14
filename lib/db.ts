@@ -6,7 +6,7 @@ import { db, isDemoMode } from './firebase';
 import {
   demoGrades, demoHomework, demoNews, demoUsers, demoClasses, demoAttendance,
 } from './demo-data';
-import type { Grade, Homework, NewsItem, AppUser, SchoolClass, AttendanceRecord } from './types';
+import type { Grade, Homework, NewsItem, AppUser, SchoolClass, AttendanceRecord, Timetable, TimetableKind } from './types';
 
 // In-memory demo store (mutations persist per-session)
 const mem = {
@@ -615,4 +615,116 @@ export async function updateBusLive(busId: string, patch: Partial<Omit<BusLive, 
 
 export async function setBusStatus(busId: string, status: BusStatus): Promise<void> {
   await updateBusLive(busId, { status });
+}
+
+// ---------- TIMETABLES ----------
+const timetableMem: { items: Timetable[] } = {
+  items: [
+    {
+      id: 'tt-class-2prep-a',
+      kind: 'class',
+      name: '2 إعدادي/أ',
+      periods: 8,
+      periodTimes: ['8:00 - 8:45', '9:00 - 9:45', '10:00 - 10:45', '11:00 - 11:45', '12:00 - 12:45', '13:00 - 13:45', '14:00 - 14:45', '15:00 - 15:45'],
+      slots: [
+        { day: 0, period: 1, subject: 'علوم', teacher: 'مها' },
+        { day: 0, period: 3, subject: 'توكاتسو', teacher: 'نور' },
+        { day: 0, period: 4, subject: 'ألعاب', teacher: 'إنجي سمير' },
+        { day: 0, period: 5, subject: 'إنجليزي', teacher: 'سارة يعقوب' },
+        { day: 0, period: 6, subject: 'دين', teacher: 'إسلام / مريم أميل' },
+        { day: 0, period: 7, subject: 'دراسات', teacher: 'مينا جرجس' },
+        { day: 0, period: 8, subject: 'رسم', teacher: 'دينا عزت' },
+        { day: 1, period: 2, subject: 'عربي', teacher: 'إسلام' },
+        { day: 1, period: 3, subject: 'دين', teacher: 'إسلام / مريم أميل' },
+        { day: 1, period: 5, subject: 'إنجليزي', teacher: 'سارة يعقوب' },
+        { day: 1, period: 7, subject: 'رياضيات', teacher: 'مريم نبيل' },
+        { day: 2, period: 1, subject: 'دراسات', teacher: 'مينا جرجس' },
+        { day: 2, period: 2, subject: 'فرنساوي', teacher: 'ميرفت' },
+        { day: 2, period: 4, subject: 'عربي', teacher: 'إسلام' },
+        { day: 2, period: 6, subject: 'دين', teacher: 'إسلام / مريم أميل' },
+        { day: 2, period: 7, subject: 'رياضيات', teacher: 'مريم نبيل' },
+        { day: 3, period: 1, subject: 'دراسات', teacher: 'مينا جرجس' },
+        { day: 3, period: 4, subject: 'عربي', teacher: 'إسلام' },
+        { day: 3, period: 6, subject: 'رياضيات', teacher: 'مريم نبيل' },
+        { day: 3, period: 7, subject: 'علوم', teacher: 'مها' },
+        { day: 4, period: 1, subject: 'دراسات', teacher: 'مينا جرجس' },
+        { day: 4, period: 2, subject: 'اقتصاد', teacher: 'دينا عزت / منى / إنجي' },
+        { day: 4, period: 4, subject: 'عربي', teacher: 'إسلام' },
+        { day: 4, period: 5, subject: 'تكنولوجيا', teacher: 'ف' },
+        { day: 4, period: 7, subject: 'إنجليزي', teacher: 'سارة يعقوب' },
+      ],
+      visible: true,
+      updatedAt: Date.now(),
+    },
+    {
+      id: 'tt-teacher-maryam-nabil',
+      kind: 'teacher',
+      name: 'مريم نبيل',
+      periods: 8,
+      periodTimes: ['8:00 - 8:45', '9:00 - 9:45', '10:00 - 10:45', '11:00 - 11:45', '12:00 - 12:45', '13:00 - 13:45', '14:00 - 14:45', '15:00 - 15:45'],
+      slots: [
+        { day: 0, period: 3, subject: 'رياضيات', className: '5/ب' },
+        { day: 0, period: 5, subject: 'رياضيات', className: '2 إعدادي/ب' },
+        { day: 0, period: 7, subject: 'رياضيات', className: '5/أ' },
+        { day: 1, period: 3, subject: 'رياضيات', className: '2 إعدادي/أ' },
+        { day: 1, period: 5, subject: 'رياضيات', className: '5/ب' },
+        { day: 1, period: 7, subject: 'رياضيات', className: '2 إعدادي/ب' },
+        { day: 2, period: 2, subject: 'رياضيات', className: '5/أ' },
+        { day: 2, period: 6, subject: 'رياضيات', className: '2 إعدادي/أ' },
+        { day: 3, period: 3, subject: 'رياضيات', className: '2 إعدادي/أ' },
+        { day: 3, period: 5, subject: 'رياضيات', className: '2 إعدادي/ب' },
+        { day: 4, period: 5, subject: 'رياضيات', className: '5/أ' },
+        { day: 4, period: 7, subject: 'رياضيات', className: '5/ب' },
+      ],
+      visible: true,
+      updatedAt: Date.now(),
+    },
+  ],
+};
+
+export async function getTimetables(kind?: TimetableKind): Promise<Timetable[]> {
+  if (isDemoMode) {
+    const all = [...timetableMem.items];
+    return kind ? all.filter((t) => t.kind === kind) : all;
+  }
+  const col = collection(db!, 'timetables');
+  const snap = kind
+    ? await getDocs(query(col, where('kind', '==', kind)))
+    : await getDocs(col);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Timetable, 'id'>) }));
+}
+
+export async function getTimetableById(id: string): Promise<Timetable | null> {
+  if (isDemoMode) return timetableMem.items.find((t) => t.id === id) ?? null;
+  const snap = await getDoc(doc(db!, 'timetables', id));
+  return snap.exists() ? ({ id: snap.id, ...(snap.data() as Omit<Timetable, 'id'>) }) : null;
+}
+
+/** Find a timetable by name (used to show a student/teacher their own schedule). */
+export async function getTimetableByName(kind: TimetableKind, name: string): Promise<Timetable | null> {
+  const all = await getTimetables(kind);
+  const norm = (s: string) => s.replace(/\s+/g, '').trim();
+  return all.find((t) => norm(t.name) === norm(name)) ?? null;
+}
+
+export async function saveTimetable(tt: Omit<Timetable, 'id'> & { id?: string }): Promise<void> {
+  const { id, ...rest } = tt;
+  const data = { ...rest, updatedAt: Date.now() };
+  if (isDemoMode) {
+    if (id) {
+      const idx = timetableMem.items.findIndex((x) => x.id === id);
+      if (idx >= 0) timetableMem.items[idx] = { ...data, id } as Timetable;
+      else timetableMem.items.push({ ...data, id } as Timetable);
+    } else {
+      timetableMem.items.push({ ...data, id: `tt-${Date.now()}` } as Timetable);
+    }
+    return;
+  }
+  if (id) await setDoc(doc(db!, 'timetables', id), rest, { merge: true });
+  else await addDoc(collection(db!, 'timetables'), rest);
+}
+
+export async function deleteTimetable(id: string): Promise<void> {
+  if (isDemoMode) { timetableMem.items = timetableMem.items.filter((t) => t.id !== id); return; }
+  await deleteDoc(doc(db!, 'timetables', id));
 }

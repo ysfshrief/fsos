@@ -25,6 +25,7 @@ export default function HomePage() {
     { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login?role=parent', bg: 'bg-gold/10' },
     { icon: '📚', title: t('teacherPortal'), href: '/login?role=teacher', bg: 'bg-blue-600/10' },
     { icon: '📋', title: t('adminInfo'), href: '/admissions', bg: 'bg-green-600/10' },
+    { icon: '📅', title: t('timetables'), href: '/timetables', bg: 'bg-burgundy/10' },
     { icon: '🏆', title: t('hallOfFame'), href: '/hall-of-fame', bg: 'bg-gold/10' },
     { icon: '🎓', title: t('courses'), href: '/courses', bg: 'bg-purple-600/10' },
   ];
@@ -146,6 +147,68 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SCHOOL BUILDING */}
+      <section className="relative">
+        <div className="relative h-[340px] md:h-[460px] overflow-hidden">
+          <Image src="/school-building.jpg" alt={t('schoolName')} fill className="object-cover" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(74,18,25,.15),rgba(74,18,25,.75))' }} />
+          <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">
+            <div className="max-w-6xl mx-auto">
+              <div className="inline-flex items-center gap-2 bg-gold/25 border border-gold/40 text-gold-light px-4 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase mb-3">
+                🏛️ {t('ourBuilding')}
+              </div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
+                {tx(settings?.schoolName) || t('schoolName')}
+              </h2>
+              <p className="text-white/80 text-sm mt-2">{t('buildingDesc')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* VISION & MISSION */}
+      <section className="py-20 bg-gradient-to-b from-white to-ivory">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <div className="text-[11px] font-bold tracking-widest uppercase text-gold mb-2">{t('visionMissionLabel')}</div>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-burgundy">{t('visionMissionTitle')}</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-burgundy to-gold rounded-full mx-auto mt-4" />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Vision */}
+            <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-burgundy to-gold" />
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-burgundy/10 flex items-center justify-center text-3xl">🎯</div>
+                <h3 className="font-display text-2xl font-bold text-burgundy">{t('visionTitle')}</h3>
+              </div>
+              <p className="text-gray-700 text-[15px] leading-loose">{t('visionText')}</p>
+            </div>
+
+            {/* Mission */}
+            <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm overflow-hidden">
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-gold to-burgundy" />
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-gold/15 flex items-center justify-center text-3xl">📜</div>
+                <h3 className="font-display text-2xl font-bold text-burgundy">{t('missionTitle')}</h3>
+              </div>
+              <ul className="space-y-3">
+                {[
+                  t('mission1'), t('mission2'), t('mission3'), t('mission4'),
+                  t('mission5'), t('mission6'), t('mission7'), t('mission8'), t('mission9'),
+                ].map((m, i) => (
+                  <li key={i} className="flex items-start gap-3 text-gray-700 text-[14px] leading-relaxed">
+                    <span className="shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[11px] font-bold mt-0.5">✓</span>
+                    <span>{m}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

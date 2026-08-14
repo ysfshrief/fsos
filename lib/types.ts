@@ -327,3 +327,30 @@ export interface BusLive {
   etaMinutes: number;      // estimated minutes to arrival (driver/admin set)
   updatedAt: number;
 }
+
+/** ─────────── TIMETABLE / SCHEDULE ───────────
+ * A weekly timetable. Can be for a class (e.g. "2 اعدادي/أ") or a teacher.
+ * Firestore: timetables/{id}
+ */
+export type TimetableKind = 'class' | 'teacher';
+
+/** One cell in the timetable = one period on one day. */
+export interface TimetableSlot {
+  day: number;      // 0=السبت ... 6=الجمعة (index into the days array)
+  period: number;   // 1..N (period number)
+  subject: string;  // e.g. "رياضيات" — for a class table
+  teacher?: string; // teacher name — shown on class tables
+  className?: string; // class name — shown on teacher tables (e.g. "2 اعدادي/أ")
+  room?: string;    // optional room
+}
+
+export interface Timetable {
+  id: string;
+  kind: TimetableKind;
+  name: string;          // class name OR teacher name (e.g. "2 اعدادي/أ" or "مريم نبيل")
+  periods: number;       // how many periods per day (e.g. 8)
+  periodTimes: string[]; // labels for each period e.g. ["8:00 - 8:45", ...] length = periods
+  slots: TimetableSlot[];// filled cells
+  visible: boolean;      // show on public site?
+  updatedAt: number;
+}

@@ -14,6 +14,8 @@ const navByRole: Record<string, { href: string; icon: string; key: string }[]> =
     { href: '/portal/student', icon: '🏠', key: 'dashboard' },
     { href: '/portal/student/grades', icon: '📊', key: 'myGrades' },
     { href: '/portal/student/homework', icon: '📝', key: 'homework' },
+    { href: '/portal/student/id-card', icon: '🪪', key: 'idCard' },
+    { href: '/timetables', icon: '📅', key: 'timetables' },
   ],
   parent: [
     { href: '/portal/parent', icon: '🏠', key: 'dashboard' },
@@ -26,11 +28,14 @@ const navByRole: Record<string, { href: string; icon: string; key: string }[]> =
     { href: '/portal/teacher/attendance', icon: '📅', key: 'attendance' },
     { href: '/portal/teacher/grading', icon: '📊', key: 'gradeEntry' },
     { href: '/portal/teacher/homework', icon: '📝', key: 'homework' },
+    { href: '/timetables', icon: '📅', key: 'timetables' },
   ],
   admin: [
     { href: '/portal/admin', icon: '📊', key: 'dashboard' },
     { href: '/portal/admin/banners', icon: '🖼️', key: 'manageBanners' },
     { href: '/portal/admin/buses', icon: '🚌', key: 'manageBuses' },
+    { href: '/portal/admin/timetables', icon: '📅', key: 'manageTimetables' },
+    { href: '/portal/admin/id-cards', icon: '🪪', key: 'manageIdCards' },
     { href: '/portal/admin/users', icon: '👥', key: 'users' },
     { href: '/portal/admin/news', icon: '📰', key: 'newsManage' },
     { href: '/portal/admin/achievers', icon: '🏆', key: 'manageAchievers' },

@@ -60,6 +60,12 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ---------- TIMETABLES ----------
+    match /timetables/{ttId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     // ---------- CLASSES ----------
     match /classes/{classId} {
       allow read: if isSignedIn();

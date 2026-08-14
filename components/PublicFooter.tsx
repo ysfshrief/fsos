@@ -17,7 +17,7 @@ export default function PublicFooter() {
   const email = settings?.email || 'info@franciscan-dam.edu.eg';
   const address = tx(settings?.address) || 'دمنهور، البحيرة، مصر';
   const socials = [
-    { url: settings?.facebook, icon: 'f', label: 'Facebook' },
+    { url: settings?.facebook || 'https://www.facebook.com/profile.php?id=100057479798550', icon: 'f', label: 'Facebook' },
     { url: settings?.instagram, icon: '📷', label: 'Instagram' },
     { url: settings?.youtube, icon: '▶', label: 'YouTube' },
     { url: settings?.whatsapp ? `https://wa.me/${settings.whatsapp}` : '', icon: '💬', label: 'WhatsApp' },
