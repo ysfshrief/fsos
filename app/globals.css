@@ -2,29 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Rubik:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
 
 :root {
-  --font-display: 'Playfair Display';
-  --font-arabic: 'Amiri';
+  --font-display: 'Amiri';
+  --font-body: 'Rubik';
 }
 
 body {
-  font-family: 'Inter', 'Amiri', sans-serif;
-  background: #F8F4EC;
-  color: #1F2937;
+  font-family: 'Rubik', 'Amiri', sans-serif;
+  background: #F5F0E4;
+  color: #1C2620;
+  -webkit-font-smoothing: antialiased;
 }
 
-html[dir='rtl'] body { font-family: 'Amiri', 'Inter', sans-serif; }
+html[dir='rtl'] body { font-family: 'Rubik', 'Amiri', sans-serif; }
 
-.font-display { font-family: 'Playfair Display', 'Amiri', serif; }
+.font-display { font-family: 'Amiri', 'Playfair Display', serif; }
+.font-latin { font-family: 'Playfair Display', serif; }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 3px; }
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #E9E1CE; }
+::-webkit-scrollbar-thumb { background: #B08D2E; border-radius: 4px; }
+
+/* Selection */
+::selection { background: #B08D2E; color: #fff; }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
 }
 .animate-float { animation: float 6s ease-in-out infinite; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Thin brass rule used as a section divider */
+.rule-brass {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #B08D2E 20%, #B08D2E 80%, transparent);
+}
+
+/* Engraved text effect for headings on dark */
+.engraved {
+  text-shadow: 0 1px 0 rgba(0,0,0,.4), 0 -1px 0 rgba(255,255,255,.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-fade-up { animation: none; }
+}

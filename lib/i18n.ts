@@ -3,7 +3,7 @@ import type { Locale } from './types';
 type Dict = Record<string, string>;
 
 const ar: Dict = {
-  schoolName: 'مدرسة الراهبات الفرنسيسكانيات',
+  schoolName: 'مدرسة الراهبات الفرنسيسكانيات بدمنهور', schoolNameShort: 'مدرسة الراهبات الفرنسيسكانيات', city: 'دمنهور',
   schoolNameFull: 'مدرسة الراهبات الفرنسيسكانيات الخاصة بدمنهور',
   since: 'منذ عام 1936 — التميّز في التعليم',
   home: 'الرئيسية', menuMore: 'المزيد', about: 'عن المدرسة', admissions: 'القبول', news: 'الأخبار', library: 'المكتبة',
@@ -104,7 +104,7 @@ const ar: Dict = {
 };
 
 const en: Dict = {
-  schoolName: 'Franciscan Sisters School',
+  schoolName: 'Franciscan Sisters School — Damanhour', schoolNameShort: 'Franciscan Sisters School', city: 'Damanhour',
   schoolNameFull: 'Franciscan Sisters Private School – Damanhour',
   since: 'Since 1936 — Excellence in Education',
   home: 'Home', menuMore: 'More', about: 'About', admissions: 'Admissions', news: 'News', library: 'Library',
@@ -205,7 +205,7 @@ const en: Dict = {
 };
 
 const fr: Dict = {
-  schoolName: 'École des Sœurs Franciscaines',
+  schoolName: 'École des Sœurs Franciscaines — Damanhour', schoolNameShort: 'École des Sœurs Franciscaines', city: 'Damanhour',
   schoolNameFull: 'École Privée des Sœurs Franciscaines – Damanhour',
   since: 'Depuis 1936 — Excellence en éducation',
   home: 'Accueil', menuMore: 'Plus', about: 'À propos', admissions: 'Admissions', news: 'Actualités', library: 'Bibliothèque',
@@ -306,7 +306,7 @@ const fr: Dict = {
 };
 
 const it: Dict = {
-  schoolName: 'Scuola delle Suore Francescane',
+  schoolName: 'Scuola delle Suore Francescane — Damanhour', schoolNameShort: 'Scuola delle Suore Francescane', city: 'Damanhour',
   schoolNameFull: 'Scuola Privata delle Suore Francescane – Damanhour',
   since: 'Dal 1936 — Eccellenza educativa',
   home: 'Home',

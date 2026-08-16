@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 import PublicNav from '@/components/PublicNav';
 import PublicFooter from '@/components/PublicFooter';
 import WelcomeModal from '@/components/WelcomeModal';
-import BannerSlider from '@/components/BannerSlider';
 import { useLocale } from '@/lib/locale-context';
 import { getNews, getSiteSettings } from '@/lib/db';
 import type { NewsItem, SiteSettings } from '@/lib/types';
 
 export default function HomePage() {
-  const { t, tx } = useLocale();
+  const { t, tx, locale } = useLocale();
   const [news, setNews] = useState<NewsItem[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
@@ -20,14 +19,18 @@ export default function HomePage() {
     getSiteSettings().then(setSettings).catch(() => {});
   }, []);
 
-  const cards = [
-    { icon: '🎓', title: t('studentPortal'), href: '/login?role=student', bg: 'bg-burgundy/10' },
-    { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login?role=parent', bg: 'bg-gold/10' },
-    { icon: '📚', title: t('teacherPortal'), href: '/login?role=teacher', bg: 'bg-blue-600/10' },
-    { icon: '📋', title: t('adminInfo'), href: '/admissions', bg: 'bg-green-600/10' },
-    { icon: '📅', title: t('timetables'), href: '/timetables', bg: 'bg-burgundy/10' },
-    { icon: '🏆', title: t('hallOfFame'), href: '/hall-of-fame', bg: 'bg-gold/10' },
-    { icon: '🎓', title: t('courses'), href: '/courses', bg: 'bg-purple-600/10' },
+  const schoolName = tx(settings?.schoolName) || t('schoolName');
+
+  const portals = [
+    { icon: '🎓', title: t('studentPortal'), href: '/login?role=student' },
+    { icon: '👨‍👩‍👧', title: t('parentPortal'), href: '/login?role=parent' },
+    { icon: '📚', title: t('teacherPortal'), href: '/login?role=teacher' },
+    { icon: '📅', title: t('timetables'), href: '/timetables' },
+  ];
+
+  const missionPoints = [
+    t('mission1'), t('mission2'), t('mission3'), t('mission4'), t('mission5'),
+    t('mission6'), t('mission7'), t('mission8'), t('mission9'),
   ];
 
   return (
@@ -35,175 +38,166 @@ export default function HomePage() {
       <WelcomeModal />
       <PublicNav />
 
-      {/* HERO (school name — always first) */}
-      <section className="min-h-screen pt-[70px] flex items-center relative overflow-hidden"
-        style={{ background: 'linear-gradient(140deg,#4A1219 0%,#6E1E2B 45%,#8B2535 75%,#9D2F3C 100%)' }}>
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse at 15% 55%,rgba(201,162,39,.14) 0%,transparent 55%)'
-        }} />
-        <div className="max-w-6xl mx-auto w-full px-6 py-20 relative z-10 grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 text-gold-light px-4 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase mb-6">
-              ✨ {t('since')}
+      {/* ═══════════ HERO — the marble sign ═══════════ */}
+      <section className="relative min-h-screen flex items-end overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image src="/school-sign.jpg" alt={schoolName} fill priority className="object-cover object-center" />
+          {/* Soft wash concentrated at the bottom so the plaques (vision & mission) stay readable */}
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(180deg, rgba(14,33,26,.28) 0%, rgba(14,33,26,.10) 30%, rgba(14,33,26,.55) 70%, rgba(14,33,26,.92) 100%)'
+          }} />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-20 pt-32">
+          <div className="animate-fade-up max-w-3xl">
+            {/* Eyebrow with brass rule */}
+            <div className="flex items-center gap-4 mb-6">
+              <span className="h-px w-12 bg-brass-light" />
+              <span className="text-brass-light text-[12px] font-bold tracking-[0.25em] uppercase">
+                {t('city')} · 1936
+              </span>
             </div>
-            <h1 className="text-5xl md:text-[52px] font-bold text-white leading-tight mb-3">
-              {tx(settings?.schoolName) || t('schoolName')}
+
+            <h1 className="font-display text-white leading-[1.15] mb-5"
+              style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700 }}>
+              {schoolName}
             </h1>
-            <p className="font-display italic text-xl text-white/70 mb-6">
-              Franciscan Sisters Private School – Damanhour
+
+            <p className="font-latin italic text-brass-light/90 text-xl md:text-2xl mb-6">
+              Franciscan Sisters School · Damanhour
             </p>
-            <p className="text-[15px] text-white/60 leading-relaxed mb-9 max-w-md">
+
+            <p className="text-parchment/80 text-[15px] md:text-base leading-relaxed max-w-xl mb-9">
               {t('heroDesc')}
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/admissions" className="px-7 py-3 rounded-xl bg-gold text-white font-semibold hover:bg-gold-light transition">
-                📋 {t('explore')}
+
+            <div className="flex flex-wrap gap-4">
+              <Link href="/admissions"
+                className="group px-8 py-3.5 rounded-full bg-brass text-white font-bold text-sm hover:bg-brass-light transition-all shadow-lg shadow-brass/20 flex items-center gap-2">
+                {t('explore')}
+                <span className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">→</span>
               </Link>
-              <Link href="/login" className="px-7 py-3 rounded-xl text-white font-semibold border border-white/25 bg-white/10 hover:bg-white/20 transition">
+              <Link href="/login"
+                className="px-8 py-3.5 rounded-full text-white font-bold text-sm border border-white/25 bg-white/5 backdrop-blur hover:bg-white/15 transition-all">
                 🎓 {t('studentPortalBtn')}
               </Link>
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-12">
-              {[
-                { n: settings?.statFounded || '1936', l: t('founded') },
-                { n: settings?.statStudents || '2,400+', l: t('students') },
-                { n: settings?.statSuccess || '98%', l: t('successRate') },
-              ].map((s) => (
-                <div key={s.l} className="p-4 bg-white/[.08] border border-white/10 rounded-xl text-center backdrop-blur">
-                  <span className="font-display text-3xl font-bold text-gold-light block">{s.n}</span>
-                  <div className="text-[11px] text-white/55 mt-1">{s.l}</div>
-                </div>
-              ))}
+          </div>
+        </div>
+
+        {/* Scroll cue */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-white/40 text-xs animate-float">↓</div>
+      </section>
+
+      {/* ═══════════ STATS RIBBON ═══════════ */}
+      <section className="bg-pine-deep border-y border-brass/20">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-3 divide-x divide-brass/15 rtl:divide-x-reverse">
+          {[
+            { n: settings?.statFounded || '1936', l: t('founded') },
+            { n: settings?.statStudents || '2,400+', l: t('students') },
+            { n: settings?.statSuccess || '98%', l: t('successRate') },
+          ].map((s) => (
+            <div key={s.l} className="py-8 text-center">
+              <div className="font-display text-4xl md:text-5xl font-bold text-brass-light mb-1">{s.n}</div>
+              <div className="text-parchment/50 text-[11px] md:text-xs tracking-wider uppercase">{s.l}</div>
             </div>
-          </div>
-          <div className="hidden md:flex flex-col items-center gap-5">
-            <Image src="/logo.png" alt="Crest" width={210} height={210} className="object-contain drop-shadow-2xl animate-float" priority />
-            <p className="font-display italic text-white/75 text-center">&quot;في خدمة العلم والإيمان والإنسان&quot;</p>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* BANNER SLIDER (second — promotional) */}
-      <BannerSlider />
-
-      {/* QUICK ACCESS */}
-      <section className="py-20 bg-white">
+      {/* ═══════════ PORTALS ═══════════ */}
+      <section className="py-24 bg-parchment">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-[11px] font-bold tracking-widest uppercase text-gold mb-2">{t('portalsLabel')}</div>
-          <h2 className="font-display text-3xl font-bold text-burgundy mb-10">{t('quickAccess')}</h2>
+          <div className="flex items-center gap-4 mb-3">
+            <span className="h-px w-10 bg-brass" />
+            <span className="text-brass text-[11px] font-bold tracking-[0.25em] uppercase">{t('portalsLabel')}</span>
+          </div>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-pine mb-12">{t('quickAccess')}</h2>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {cards.map((c) => (
-              <Link key={c.title} href={c.href}
-                className="relative bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-lg transition overflow-hidden">
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-burgundy to-gold" />
-                <div className={`w-14 h-14 rounded-xl ${c.bg} flex items-center justify-center text-2xl mx-auto mb-4`}>{c.icon}</div>
-                <div className="text-sm font-bold text-gray-800">{c.title}</div>
+            {portals.map((p, i) => (
+              <Link key={p.title} href={p.href}
+                className="group relative bg-parchment-warm rounded-sm p-8 border border-pine/10 hover:border-brass/50 transition-all overflow-hidden">
+                {/* Corner index */}
+                <span className="absolute top-4 end-5 font-display text-2xl text-pine/10 group-hover:text-brass/30 transition">
+                  0{i + 1}
+                </span>
+                <div className="w-14 h-14 rounded-full bg-pine/5 group-hover:bg-brass/10 flex items-center justify-center text-2xl mb-5 transition">
+                  {p.icon}
+                </div>
+                <div className="text-[15px] font-bold text-pine mb-1">{p.title}</div>
+                <div className="rule-brass w-0 group-hover:w-full transition-all duration-500 mt-3" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ABOUT STRIP */}
-      <section className="py-16 relative overflow-hidden" style={{ background: 'linear-gradient(135deg,#4A1219,#6E1E2B)' }}>
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div className="font-display text-[100px] font-bold leading-none select-none" style={{ color: 'rgba(201,162,39,.18)' }}>1936</div>
+      {/* ═══════════ HERITAGE / STORY ═══════════ */}
+      <section className="py-24 relative overflow-hidden bg-pine">
+        <div className="absolute inset-0 opacity-[0.04] select-none pointer-events-none flex items-center justify-center">
+          <span className="font-display text-[420px] font-bold text-brass-light leading-none">؟</span>
+        </div>
+        <div className="max-w-6xl mx-auto px-6 relative grid md:grid-cols-[1.2fr_1fr] gap-16 items-center">
           <div>
-            <div className="text-[11px] font-bold tracking-widest uppercase text-gold-light mb-2">{t('ourStory')}</div>
-            <h2 className="font-display text-3xl font-bold text-white mb-4">{t('legacy')}</h2>
-            <p className="text-white/70 text-[15px] leading-relaxed mb-6">
-              أسستها راهبات القديس فرنسيس الأسيزي عام 1936م، لتكون منارةً للعلم والتربية في دمنهور.
-              تجمع مدرستنا بين القيم الروحية العميقة وأرقى أساليب التعليم الحديث.
+            <div className="flex items-center gap-4 mb-4">
+              <span className="h-px w-10 bg-brass-light" />
+              <span className="text-brass-light text-[11px] font-bold tracking-[0.25em] uppercase">{t('ourStory')}</span>
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6 engraved">{t('legacy')}</h2>
+            <p className="text-parchment/75 text-[15px] leading-loose mb-8">
+              أسّستها راهبات القديس فرنسيس الأسيزي عام 1936م، لتكون منارةً للعلم والتربية في قلب دمنهور.
+              تجمع مدرستنا بين القيم الروحية العميقة وأرقى أساليب التعليم الحديث، ونُعِدّ طالباتنا ليكنّ
+              مبدعات أمينات، لديهنّ الانتماء للوطن.
             </p>
             <div className="flex flex-wrap gap-2.5">
-              {['🕊️ الإيمان', '📖 العلم', '❤️ المحبة', '🌟 التميز', '🤝 الخدمة'].map((v) => (
-                <span key={v} className="bg-white/10 border border-white/15 px-4 py-1.5 rounded-full text-xs text-white/80">{v}</span>
+              {['🕊️ الإيمان', '📖 العلم', '❤️ المحبة', '🌟 التميّز', '🤝 الخدمة'].map((v) => (
+                <span key={v} className="bg-white/[.06] border border-brass/25 px-4 py-1.5 rounded-full text-xs text-parchment/85">{v}</span>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* NEWS */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex justify-between items-end mb-8">
-            <div>
-              <div className="text-[11px] font-bold tracking-widest uppercase text-gold mb-2">{t('latestNews')}</div>
-              <h2 className="font-display text-3xl font-bold text-burgundy">{t('newsTitle')}</h2>
-            </div>
-            <Link href="/news" className="px-4 py-2 rounded-md border-2 border-burgundy text-burgundy text-xs font-semibold hover:bg-burgundy hover:text-white transition">
-              {t('viewAll')} ←
-            </Link>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {news.map((n) => (
-              <div key={n.id} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-md transition cursor-pointer">
-                <div className="h-36 flex items-center justify-center text-5xl bg-gradient-to-br from-burgundy to-gold">{n.emoji}</div>
-                <div className="p-4">
-                  <span className="inline-block bg-gold-pale text-gold text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full mb-2">{n.tag}</span>
-                  <div className="text-sm font-semibold text-gray-800 leading-snug mb-2">{n.title}</div>
-                  <div className="text-[11px] text-gray-400">{n.date}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SCHOOL BUILDING */}
-      <section className="relative">
-        <div className="relative h-[340px] md:h-[460px] overflow-hidden">
-          <Image src="/school-building.jpg" alt={t('schoolName')} fill className="object-cover" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg,rgba(74,18,25,.15),rgba(74,18,25,.75))' }} />
-          <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">
-            <div className="max-w-6xl mx-auto">
-              <div className="inline-flex items-center gap-2 bg-gold/25 border border-gold/40 text-gold-light px-4 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase mb-3">
-                🏛️ {t('ourBuilding')}
-              </div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
-                {tx(settings?.schoolName) || t('schoolName')}
-              </h2>
-              <p className="text-white/80 text-sm mt-2">{t('buildingDesc')}</p>
+          {/* Founded seal */}
+          <div className="flex justify-center">
+            <div className="relative w-52 h-52 rounded-full border-2 border-brass/40 flex flex-col items-center justify-center">
+              <div className="absolute inset-3 rounded-full border border-brass/20" />
+              <Image src="/logo.png" alt="Crest" width={90} height={90} className="object-contain mb-2 animate-float" />
+              <div className="font-display text-brass-light text-3xl font-bold">1936</div>
+              <div className="text-parchment/50 text-[10px] tracking-widest uppercase">Est.</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* VISION & MISSION */}
-      <section className="py-20 bg-gradient-to-b from-white to-ivory">
+      {/* ═══════════ VISION & MISSION ═══════════ */}
+      <section className="py-24 bg-parchment-warm">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="text-[11px] font-bold tracking-widest uppercase text-gold mb-2">{t('visionMissionLabel')}</div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-burgundy">{t('visionMissionTitle')}</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-burgundy to-gold rounded-full mx-auto mt-4" />
+          <div className="text-center mb-14">
+            <span className="text-brass text-[11px] font-bold tracking-[0.25em] uppercase">{t('visionMissionLabel')}</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-pine mt-2">{t('visionMissionTitle')}</h2>
+            <div className="rule-brass w-24 mx-auto mt-5" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6">
             {/* Vision */}
-            <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-burgundy to-gold" />
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-14 h-14 rounded-2xl bg-burgundy/10 flex items-center justify-center text-3xl">🎯</div>
-                <h3 className="font-display text-2xl font-bold text-burgundy">{t('visionTitle')}</h3>
+            <div className="relative bg-pine rounded-sm p-9 overflow-hidden">
+              <span className="absolute -top-4 -end-2 font-display text-[120px] text-white/[0.04] leading-none select-none">🎯</span>
+              <div className="relative">
+                <h3 className="font-display text-2xl font-bold text-brass-light mb-4">{t('visionTitle')}</h3>
+                <div className="rule-brass w-16 mb-5" />
+                <p className="text-parchment/85 text-lg leading-loose">{t('visionText')}</p>
               </div>
-              <p className="text-gray-700 text-[15px] leading-loose">{t('visionText')}</p>
             </div>
 
             {/* Mission */}
-            <div className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm overflow-hidden">
-              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-gold to-burgundy" />
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-14 h-14 rounded-2xl bg-gold/15 flex items-center justify-center text-3xl">📜</div>
-                <h3 className="font-display text-2xl font-bold text-burgundy">{t('missionTitle')}</h3>
-              </div>
+            <div className="bg-parchment rounded-sm p-9 border border-pine/10">
+              <h3 className="font-display text-2xl font-bold text-pine mb-4">{t('missionTitle')}</h3>
+              <div className="rule-brass w-16 mb-5" />
               <ul className="space-y-3">
-                {[
-                  t('mission1'), t('mission2'), t('mission3'), t('mission4'),
-                  t('mission5'), t('mission6'), t('mission7'), t('mission8'), t('mission9'),
-                ].map((m, i) => (
-                  <li key={i} className="flex items-start gap-3 text-gray-700 text-[14px] leading-relaxed">
-                    <span className="shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[11px] font-bold mt-0.5">✓</span>
+                {missionPoints.map((m, i) => (
+                  <li key={i} className="flex items-start gap-3 text-ink/85 text-[14px] leading-relaxed">
+                    <span className="shrink-0 font-display text-brass text-sm font-bold mt-0.5 w-5">{i + 1}.</span>
                     <span>{m}</span>
                   </li>
                 ))}
@@ -212,6 +206,45 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════ NEWS ═══════════ */}
+      {news.length > 0 && (
+        <section className="py-24 bg-parchment">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="h-px w-10 bg-brass" />
+                  <span className="text-brass text-[11px] font-bold tracking-[0.25em] uppercase">{t('latestNews')}</span>
+                </div>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-pine">{t('newsTitle')}</h2>
+              </div>
+              <Link href="/news"
+                className="px-5 py-2.5 rounded-full border border-pine/30 text-pine text-xs font-bold hover:bg-pine hover:text-white transition">
+                {t('viewAll')} <span className="rtl:rotate-180 inline-block">→</span>
+              </Link>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {news.map((n) => (
+                <Link href="/news" key={n.id}
+                  className="group bg-parchment-warm rounded-sm overflow-hidden border border-pine/10 hover:border-brass/40 hover:-translate-y-1 transition-all">
+                  <div className="h-40 flex items-center justify-center text-5xl relative overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg,#1B3A2F,#2C5443)' }}>
+                    <span className="relative z-10">{n.emoji}</span>
+                    <span className="absolute -bottom-6 -end-4 font-display text-[100px] text-brass/10 leading-none">{n.emoji}</span>
+                  </div>
+                  <div className="p-5">
+                    <span className="inline-block bg-brass/10 text-brass text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full mb-3">{n.tag}</span>
+                    <div className="text-[15px] font-bold text-pine leading-snug mb-2 group-hover:text-brass transition">{n.title}</div>
+                    <div className="text-[11px] text-ink-muted">{n.date}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <PublicFooter />
     </>
